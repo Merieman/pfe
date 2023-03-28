@@ -6,7 +6,6 @@ from model_utils import FieldTracker
 from model_utils.fields import StatusField
 from django.contrib.auth.password_validation import validate_password
 
-
 class Company(models.Model):
     company_id = models.AutoField(primary_key=True)
     company_name = models.CharField(max_length=100)
@@ -21,19 +20,6 @@ class Company(models.Model):
     linkedin_url = models.URLField(max_length=200, blank=True, null=True)
     password = models.CharField(max_length=128, validators=[validate_password])
     tracker = FieldTracker()
-
-    def delete(self, *args, **kwargs):
-        print(f"Deleting {self}")
-        related_objects = self.offer_set.all()  # replace with relevant related objects
-        print(f"Related objects: {related_objects}")
-        related_objects.delete()
-
-        # Add some debugging code
-        print(f"Deleting Company object with ID {self.company_id}")
-        # delete related Offer objects
-        self.offer_set.all().delete()
-        super().delete(*args, **kwargs)
-
 
 class Offer(models.Model):
     id = models.AutoField(primary_key=True)
@@ -56,15 +42,6 @@ class Offer(models.Model):
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     tracker = FieldTracker()
 
-    def delete(self, *args, **kwargs):
-        # Add some debugging code
-        print(f"Deleting Offer object with ID {self.id}")
-        # Delete related Postulation objects
-        Postulation.objects.filter(offer=self).delete()
-        # Call parent delete method to delete the Offer object
-        super().delete(*args, **kwargs)
-
-
 class Candidate(models.Model):
     id_candidate = models.AutoField(primary_key=True)
     first_name = models.CharField(max_length=50)
@@ -86,22 +63,12 @@ class Candidate(models.Model):
     password = models.CharField(max_length=128, validators=[validate_password])
     tracker = FieldTracker()
 
-    def delete(self, *args, **kwargs):
-        # Add some debugging code
-        print(f"Deleting Candidate object with ID {self.id_candidate}")
-        # Delete related Postulation objects
-        Postulation.objects.filter(candidate=self).delete()
-        # Call parent delete method to delete the Offer object
-        super().delete(*args, **kwargs)
-
-
 class Log(models.Model):
     id_log = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(default=timezone.now)
     action = models.CharField(max_length=100)
     description = models.CharField(max_length=255, blank=True)
-    candidate = models.ForeignKey(
-        Candidate, on_delete=models.SET_NULL, null=True)
+    candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, null=True)
     offer = models.ForeignKey(Offer, on_delete=models.SET_NULL, null=True)
     company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True)
     admin_email = models.EmailField()
@@ -220,7 +187,7 @@ class Log(models.Model):
         Log.objects.create(
             action=action,
             description=description,
-            candidate=instance if isinstance(instance, Candidate) else None,
+            #candidate=instance if isinstance(instance, Candidate) else None,
             offer=instance if isinstance(instance, Offer) else None,
             company=instance if isinstance(instance, Company) else None,
         )
@@ -232,11 +199,9 @@ class Log(models.Model):
 
 
 class Postulation(models.Model):
-    candidate = models.ForeignKey(
-        Candidate, on_delete=models.CASCADE, default=-1)
+    candidate = models.ForeignKey( Candidate, on_delete=models.SET_DEFAULT, default=-1)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, default=-1)
-    application_date = models.DateField(
-        auto_now_add=True)
+    application_date = models.DateField(auto_now_add=True)
 
     class Meta:
         unique_together = ('candidate', 'offer')
