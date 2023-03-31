@@ -1,0 +1,34 @@
+{% extends "base.html" %} 
+{% load static %}
+{% block title%}
+Company  
+{% endblock title %}
+{% block content%}
+
+<table id="example" class="display datatable" style="width:100%">
+    <thead>
+        <tr>
+            <th>company id</th>
+            <th>address</th>
+            <th>headquarters</th>
+            <th>business sector</th>
+        </tr>
+    </thead>
+</table>
+
+{% endblock content%}
+
+{% block scripts%}
+<script>
+    $(document).ready(function () {
+        var oTable = $('.datatable').dataTable({
+            // ...
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{% url 'companyJson' %}"
+        });
+        // ...
+    });
+</script>
+{% endblock scripts%}
+

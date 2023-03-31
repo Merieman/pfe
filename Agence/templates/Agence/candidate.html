@@ -1,0 +1,44 @@
+{% extends "base.html" %} 
+{% load static %}
+{% block title%}
+Candidate  
+{% endblock title %}
+{% block content%}
+<a href="{% url 'add_candidate' %}">
+    <button type="button" class="btn btn-default float-right" data-toggle="modal" data-target="#modal-lg">
+        Add candidate
+    </button>
+</a>
+<table id="example" class="display datatable" style="width:100%">
+    <thead>
+        <tr>
+            <th>id candidate</th>
+            <th>driving license</th>
+            <th>city</th>
+            <th>technical skills</th>
+            <th>language skills</th>
+            <th>social skills</th>
+            <th>education level</th>
+            <th>expertise field</th>
+        </tr>
+    </thead>
+</table>
+
+
+ 
+{% endblock content%}
+
+{% block scripts%}
+<script>
+    $(document).ready(function () {
+        var oTable = $('.datatable').dataTable({
+            // ...
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{% url 'candidateJson' %}"
+        });
+        // ...
+    });
+</script>
+{% endblock scripts%}
+

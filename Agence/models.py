@@ -6,6 +6,7 @@ from model_utils import FieldTracker
 from model_utils.fields import StatusField
 from django.contrib.auth.password_validation import validate_password
 
+
 class Company(models.Model):
     company_id = models.AutoField(primary_key=True)
     company_name = models.CharField(max_length=100)
@@ -20,6 +21,9 @@ class Company(models.Model):
     linkedin_url = models.URLField(max_length=200, blank=True, null=True)
     password = models.CharField(max_length=128, validators=[validate_password])
     tracker = FieldTracker()
+    def __str__(self) :
+        return self.company_name
+
 
 class Offer(models.Model):
     id = models.AutoField(primary_key=True)
@@ -29,7 +33,7 @@ class Offer(models.Model):
     description = models.TextField()
     skills = models.TextField(blank=True, null=True)
     experience = models.TextField(blank=True, null=True)
-    degrees = models.TextField(blank=True, null=True)
+    education_level = models.CharField(max_length=50, blank=True, null=True)
     workplace = models.CharField(max_length=100)
     contract_type = models.CharField(max_length=50)
     contract_duration = models.CharField(max_length=100, blank=True, null=True)
@@ -41,6 +45,12 @@ class Offer(models.Model):
     deadline = models.DateField(blank=True, null=True)
     company = models.ForeignKey(Company, on_delete=models.CASCADE)
     tracker = FieldTracker()
+    def __str__(self) :
+        return self.title
+        
+        
+
+
 
 class Candidate(models.Model):
     id_candidate = models.AutoField(primary_key=True)
@@ -62,15 +72,19 @@ class Candidate(models.Model):
     expertise_field = models.CharField(max_length=50)
     password = models.CharField(max_length=128, validators=[validate_password])
     tracker = FieldTracker()
+    def __str__(self) :
+        return self.first_name +' ' + self.last_name
+    
+
 
 class Log(models.Model):
     id_log = models.AutoField(primary_key=True)
     timestamp = models.DateTimeField(default=timezone.now)
     action = models.CharField(max_length=100)
     description = models.CharField(max_length=255, blank=True)
-    candidate = models.ForeignKey(Candidate, on_delete=models.SET_NULL, null=True)
-    offer = models.ForeignKey(Offer, on_delete=models.SET_NULL, null=True)
-    company = models.ForeignKey(Company, on_delete=models.SET_NULL, null=True)
+    candidate =  models.CharField(max_length=100, blank=True, null=True)
+    offer =  models.CharField(max_length=100, blank=True, null=True)
+    company =  models.CharField(max_length=100, blank=True, null=True)
     admin_email = models.EmailField()
 
     def save(self, *args, **kwargs):
@@ -103,9 +117,9 @@ class Log(models.Model):
         Log.objects.create(
             action=action,
             description=description,
-            candidate=instance if isinstance(instance, Candidate) else None,
-            offer=instance if isinstance(instance, Offer) else None,
-            company=instance if isinstance(instance, Company) else None,
+            candidate=instance.id_candidate if isinstance(instance, Candidate) else None,
+            offer=instance.id if isinstance(instance, Offer) else None,
+            company=instance.company_id if isinstance(instance, Company) else None,
         )
 
     def log_update(sender, instance, **kwargs):
@@ -159,17 +173,12 @@ class Log(models.Model):
         Log.objects.create(
             action=action,
             description=description,
-            candidate=instance if isinstance(instance, Candidate) else None,
-            offer=instance if isinstance(instance, Offer) else None,
-            company=instance if isinstance(instance, Company) else None,
+            candidate=instance.id_candidate if isinstance(instance, Candidate) else None,
+            offer=instance.id if isinstance(instance, Offer) else None,
+            company=instance.company_id if isinstance(instance, Company) else None,
         )
 
-    def delete(self, *args, **kwargs):
-        # Set the related candidate, offer, and company fields to null to avoid integrity errors
-        self.candidate = None
-        self.offer = None
-        self.company = None
-        super().delete(*args, **kwargs)
+  
 
     def log_delete(sender, instance, **kwargs):
         if isinstance(instance, Candidate):
@@ -187,9 +196,9 @@ class Log(models.Model):
         Log.objects.create(
             action=action,
             description=description,
-            #candidate=instance if isinstance(instance, Candidate) else None,
-            offer=instance if isinstance(instance, Offer) else None,
-            company=instance if isinstance(instance, Company) else None,
+            candidate=instance.id_candidate if isinstance(instance, Candidate) else None,
+            offer=instance.id if isinstance(instance, Offer) else None,
+            company=instance.company_id if isinstance(instance, Company) else None,
         )
 
     # Connecter les fonctions de rappel aux signaux correspondants
@@ -199,7 +208,8 @@ class Log(models.Model):
 
 
 class Postulation(models.Model):
-    candidate = models.ForeignKey( Candidate, on_delete=models.SET_DEFAULT, default=-1)
+    candidate = models.ForeignKey(
+        Candidate, on_delete=models.SET_DEFAULT, default=-1)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, default=-1)
     application_date = models.DateField(auto_now_add=True)
 

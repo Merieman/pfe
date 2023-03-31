@@ -6,3 +6,4 @@ from Agence.models import Company, Offer, Candidate
 admin.site.register(Offer)
 admin.site.register(Company)
 admin.site.register(Candidate)
+
