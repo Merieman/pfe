@@ -4,22 +4,61 @@ from django_datatables_view.base_datatable_view import BaseDatatableView
 from django.utils.html import escape
 from django.db.models import Q
 from django import forms
- 
+from .forms import candidateformm
+from django.http import JsonResponse
+
+
 
 def home(request):
-    return render(request, 'index.html')
+    companyC=Company.objects.all()
+    candidateC=Candidate.objects.all()
+    offerO=Offer.objects.all()
+    if companyC.count()==0:
+        company_count=0
+    else:
+        company_count= companyC.count()
+        
+    if candidateC.count()==0:
+        candidate_count=0
+    else:
+        candidate_count= candidateC.count()
 
+    if offerO.count()==0:
+        offer_count=0
+    else:
+        offer_count= offerO.count()
+
+    context={
+        "company_count":company_count,
+        "candidate_count":candidate_count,
+        "offer_count":offer_count
+    }
+    return render(request, 'index.html', context)
+
+def get_postulation (request):
+    postulationC=Postulation.objects.all()
+    candidateC=Candidate.objects.all()
+    offerO=Offer.objects.all()
+    context={
+        "postulation":postulationC,
+        "candidate":candidateC,
+        "offer":offerO
+    }
+    return render (request, 'Agence/postulation.html', context)
 def get_candidate (request):
     candidateC=Candidate.objects.all()
+    fieldcandidate=candidateformm
     context={
-        "candidate":candidateC
+        "candidate":candidateC,
+        "field":fieldcandidate
     }
     return render (request, 'Agence/candidate.html', context)
 
 def get_company (request):
     companyC=Company.objects.all()
+    
     context={
-        "company":companyC
+        "company":companyC,
     }
     return render (request, 'Agence/company.html', context)
 
@@ -151,8 +190,8 @@ class companyJson(BaseDatatableView):
     
 class offerJson(BaseDatatableView):
     model = Offer
-    columns = ['id', 'title', 'job_type', 'date_cloture', 'description', 'skills', 'experience', 'education_level', 'number_of_positions', 'languages'] 
-    order_columns = ['id', 'title', 'job_type', 'date_cloture', 'description', 'skills', 'experience', 'education_level', 'number_of_positions', 'languages']
+    columns = ['id_candidate', 'expertise_field','id','field'] 
+    order_columns = ['id_candidate', 'expertise_field','id','field'] 
 
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
@@ -181,3 +220,59 @@ class offerJson(BaseDatatableView):
                 qs_params = qs_params | q if qs_params else q
             qs = qs.filter(qs_params)
         return qs
+class PostulationJson(BaseDatatableView):
+    model = Postulation
+    columns = ['id', 'candidate', 'offer', 'application_date', 'acceptation']
+    order_columns = ['id', 'candidate', 'offer', 'application_date', 'acceptation']
+
+    # set max limit of records returned, this is used to protect our site if someone tries to attack our site
+    # and make it return huge amount of data
+    max_display_length = 500
+
+    def filter_queryset(self, qs):
+        # use parameters passed in GET request to filter queryset
+
+        # simple example:
+        search = self.request.GET.get('search[value]', None)
+        if search:
+            qs = qs.filter(Q(candidate__name__istartswith=search) | Q(offer__name__istartswith=search))
+
+        # more advanced example using extra parameters
+        filter_candidate = self.request.GET.get('candidate', None)
+        filter_offer = self.request.GET.get('offer', None)
+        filter_acceptation = self.request.GET.get('acceptation', None)
+
+        if filter_candidate:
+            qs = qs.filter(candidate__id=filter_candidate)
+        if filter_offer:
+            qs = qs.filter(offer__id=filter_offer)
+        if filter_acceptation:
+            qs = qs.filter(acceptation__icontains=filter_acceptation)
+
+        return qs
+
+    def render_column(self, row, column):
+        # We want to render candidate and offer as custom columns
+        if column == 'candidate':
+            return row.candidate.name
+        elif column == 'offer':
+            return row.offer.name
+        else:
+            return super(PostulationJson, self).render_column(row, column)
+
+    def get(self, request, *args, **kwargs):
+        # Override get method to return JSON response instead of HTML
+        self.process_request(request)
+        self.prep_query()
+        self.get_ordering()
+        self.set_unfiltered_length()
+        self.set_filtered_length()
+        data = []
+        for item in self.get_queryset():
+            data.append([self.render_column(item, column) for column in self.columns])
+        return JsonResponse({
+            'draw': self.draw,
+            'recordsTotal': self.unfiltered_length,
+            'recordsFiltered': self.filtered_length,
+            'data': data,
+        })

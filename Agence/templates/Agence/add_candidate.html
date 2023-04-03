@@ -10,154 +10,145 @@ Candidate
           
         
     <!-- Content -->
-    <div id="content" class="colM">
+<div id="content" class="colM">
+    <h1>Add candidate</h1>
+    <div id="content-main">
+        {{field}}
+        <form method="post" action="" id="candidate_form" novalidate="">
+            <input type="hidden" name="csrfmiddlewaretoken" value="bhdG9FZMToxc3YLtMIBgr5MfDMkEWztofwmTpPyCc3EahWuqJGP4zg0wMMpWxck9">
+            <div>
+
+                <fieldset class="module aligned ">
+                    <div class="form-row field-first_name">
+                        <div>
+                            <label class="required" for="id_first_name">First name:</label>
+                            <input type="text" name="first_name" class="vTextField" maxlength="50" required="required" id="id_first_name">
+                        </div>
+                    </div>
+                    <div class="form-row field-last_name">
+                        <div>
+                            <label class="required" for="id_last_name">Last name:</label>
+                            <input type="text" name="last_name" class="vTextField" maxlength="50" required="" id="id_last_name">
+                        </div>
+                    </div>
+                    <div class="form-row field-birth_date">
+                        <div>
+                            <label class="required" for="id_birth_date">Birth date:</label>
+                            <input type="text" name="birth_date" class="vDateField" size="10" required="" id="id_birth_date"><span class="datetimeshortcuts">&nbsp;<a href="#">Today</a>&nbsp;|&nbsp;<a href="#" id="calendarlink0"><span class="date-icon" title="Choose a Date"></span></a></span>
+                        </div>
+                    </div>
+                    <div class="form-row field-gender">
+                        <div>
+                            <label class="required" for="id_gender">Gender:</label>
+                            <input type="text" name="gender" class="vTextField" maxlength="10" required="" id="id_gender">                   
+                        </div>       
+                    </div>
+                    <div class="form-row field-nationality">    
+                        <div>
+                            <label class="required" for="id_nationality">Nationality:</label>                   
+                            <input type="text" name="nationality" class="vTextField" maxlength="50" required="" id="id_nationality">    
+                        </div>
+                    </div>
+                    <div class="form-row field-address">
+                        <div>
+                            <label class="required" for="id_address">Address:</label>                    
+                            <textarea name="address" cols="40" rows="10" class="vLargeTextField" required="" id="id_address"></textarea>     
+                        </div>       
+                    </div>
+                    <div class="form-row field-driving_license">
+                        <div>
+                            <label for="id_driving_license">Driving license:</label>
+                    
+                            <input type="text" name="driving_license" class="vTextField" maxlength="100" id="id_driving_license">
+                        </div>        
+                    </div>
+                    <div class="form-row field-city">
+                        <div>
+                            <label class="required" for="id_city">City:</label>
+                            <input type="text" name="city" class="vTextField" maxlength="50" required="" id="id_city">   
+                        </div>
+                    </div>
+                    <div class="form-row field-phone_number">
+                        <div>
+                            <label class="required" for="id_phone_number">Phone number:</label>
+                            <input type="text" name="phone_number" class="vTextField" maxlength="20" required="" id="id_phone_number">   
+                        </div>
+                    </div>
+                    <div class="form-row field-email">
+                        <div>
+                            <label class="required" for="id_email">Email:</label>
+                    
+                            <input type="email" name="email" class="vTextField" maxlength="254" required="" id="id_email">
+                        </div>       
+                    </div>
+                    <div class="form-row field-linkedin">
+                        <div>
+                            <label for="id_linkedin">Linkedin:</label>
+                            <input type="url" name="linkedin" class="vURLField" maxlength="200" id="id_linkedin"> 
+                        </div>
+                    </div>
+                    <div class="form-row field-technical_skills">
+                        <div>
+                            <label for="id_technical_skills">Technical skills:</label>
+                    
+                            <textarea name="technical_skills" cols="40" rows="10" class="vLargeTextField" id="id_technical_skills"></textarea>                                                  
+                        </div>        
+                    </div>
+                    <div class="form-row field-language_skills">
+                        <div>
+                            <label for="id_language_skills">Language skills:</label>
+                    
+                            <textarea name="language_skills" cols="40" rows="10" class="vLargeTextField" id="id_language_skills"></textarea>  
+                        </div>
+                    </div>
+                    <div class="form-row field-social_skills">
+                        <div>
+                            <label for="id_social_skills">Social skills:</label>
+                            <textarea name="social_skills" cols="40" rows="10" class="vLargeTextField" id="id_social_skills"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row field-education_level">
+                        <div>
+                            <label class="required" for="id_education_level">Education level:</label>
+                    
+                            <input type="text" name="education_level" class="vTextField" maxlength="50" required="" id="id_education_level">
+                        </div>
+                    </div>
+                    <div class="form-row field-expertise_field">
+                        <div>
+                            <label class="required" for="id_expertise_field">Expertise field:</label>
+                    
+                            <input type="text" name="expertise_field" class="vTextField" maxlength="50" required="" id="id_expertise_field">                
+                        </div>       
+                    </div>
+                    <div class="form-row field-password">
+                        <div>
+                            <label class="required" for="id_password">Password:</label>
+                    
+                            <input type="text" name="password" class="vTextField" maxlength="128" required="" id="id_password">
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="submit-row">
+
+                    <input type="submit" value="Cancel" class="default" name="_cancel">
+                    <input type="submit" value="Save" class="default" name="_save">
+                    
+                </div>
+
+                <script id="django-admin-form-add-constants" src="/static/admin/js/change_form.js" data-model-name="candidate" async="">
+                </script>
+                <script id="django-admin-prepopulated-fields-constants" src="/static/admin/js/prepopulate_init.js" data-prepopulated-fields="[]">
+                </script>
+
+
+            </div>  
+        </form>
+    </div>
+
       
-      <h1>Add candidate</h1>
-      
-      <div id="content-main">
-<form method="post" id="candidate_form" novalidate=""><input type="hidden" name="csrfmiddlewaretoken" value="bhdG9FZMToxc3YLtMIBgr5MfDMkEWztofwmTpPyCc3EahWuqJGP4zg0wMMpWxck9">
-<div>
-
-<fieldset class="module aligned ">
-    <div class="form-row field-first_name">
-            <div>
-                    <label class="required" for="id_first_name">First name:</label>
-                        <input type="text" name="first_name" class="vTextField" maxlength="50" required="" id="id_first_name">
-            </div>
-    </div>
-    <div class="form-row field-last_name">
-            <div>
-                    <label class="required" for="id_last_name">Last name:</label>
-                        <input type="text" name="last_name" class="vTextField" maxlength="50" required="" id="id_last_name">
-            </div>
-    </div>
-    <div class="form-row field-birth_date">
-            <div>
-                    <label class="required" for="id_birth_date">Birth date:</label>
-                        <input type="text" name="birth_date" class="vDateField" size="10" required="" id="id_birth_date"><span class="datetimeshortcuts">&nbsp;<a href="#">Today</a>&nbsp;|&nbsp;<a href="#" id="calendarlink0"><span class="date-icon" title="Choose a Date"></span></a></span>
-            </div>
-    </div>
-    <div class="form-row field-gender">
-            <div>
-                    <label class="required" for="id_gender">Gender:</label>
-                        <input type="text" name="gender" class="vTextField" maxlength="10" required="" id="id_gender">                   
-            </div>       
-    </div>
-    <div class="form-row field-nationality">    
-            <div>
-                    <label class="required" for="id_nationality">Nationality:</label>                   
-                        <input type="text" name="nationality" class="vTextField" maxlength="50" required="" id="id_nationality">    
-            </div>
-    </div>
-    <div class="form-row field-address">
-            <div>
-                    <label class="required" for="id_address">Address:</label>                    
-                        <textarea name="address" cols="40" rows="10" class="vLargeTextField" required="" id="id_address"></textarea>     
-            </div>       
-    </div>
-    <div class="form-row field-driving_license">
-            <div>
-                    <label for="id_driving_license">Driving license:</label>
-                    
-                        <input type="text" name="driving_license" class="vTextField" maxlength="100" id="id_driving_license">
-            </div>        
-    </div>
-    <div class="form-row field-city">
-            <div>
-                    <label class="required" for="id_city">City:</label>
-                        <input type="text" name="city" class="vTextField" maxlength="50" required="" id="id_city">   
-            </div>
-    </div>
-    <div class="form-row field-phone_number">
-            <div>
-                    <label class="required" for="id_phone_number">Phone number:</label>
-                        <input type="text" name="phone_number" class="vTextField" maxlength="20" required="" id="id_phone_number">   
-            </div>
-    </div>
-    <div class="form-row field-email">
-            <div>
-                    <label class="required" for="id_email">Email:</label>
-                    
-                        <input type="email" name="email" class="vTextField" maxlength="254" required="" id="id_email">
-            </div>       
-    </div>
-    <div class="form-row field-linkedin">
-            <div>
-                    <label for="id_linkedin">Linkedin:</label>
-                    <input type="url" name="linkedin" class="vURLField" maxlength="200" id="id_linkedin"> 
-            </div>
-    </div>
-    <div class="form-row field-technical_skills">
-            <div>
-                    <label for="id_technical_skills">Technical skills:</label>
-                    
-                        <textarea name="technical_skills" cols="40" rows="10" class="vLargeTextField" id="id_technical_skills"></textarea>                                                  
-            </div>        
-    </div>
-    <div class="form-row field-language_skills">
-            <div>
-                    <label for="id_language_skills">Language skills:</label>
-                    
-                        <textarea name="language_skills" cols="40" rows="10" class="vLargeTextField" id="id_language_skills"></textarea>  
-            </div>
-    </div>
-    <div class="form-row field-social_skills">
-            <div>
-                    <label for="id_social_skills">Social skills:</label>
-                        <textarea name="social_skills" cols="40" rows="10" class="vLargeTextField" id="id_social_skills"></textarea>
-            </div>
-    </div>
-    <div class="form-row field-education_level">
-            <div>
-                    <label class="required" for="id_education_level">Education level:</label>
-                    
-                        <input type="text" name="education_level" class="vTextField" maxlength="50" required="" id="id_education_level">
-            </div>
-    </div>
-    <div class="form-row field-expertise_field">
-            <div>
-                    <label class="required" for="id_expertise_field">Expertise field:</label>
-                    
-                        <input type="text" name="expertise_field" class="vTextField" maxlength="50" required="" id="id_expertise_field">                
-            </div>       
-    </div>
-    <div class="form-row field-password">
-            <div>
-                    <label class="required" for="id_password">Password:</label>
-                    
-                        <input type="text" name="password" class="vTextField" maxlength="128" required="" id="id_password">
-            </div>
-    </div>
-</fieldset>
-<div class="submit-row">
-    <input type="button" value="Cancel" class="default" name="_cancel" onclick="window.location.href='{% url 'candidate' %}'">
-
-    <input type="submit" value="Save" class="default" name="_save" onclick="save()">
-
-    <!-- JavaScript code for the "save()" function -->
-    <script>
-    function save() {
-      // Your code to save the data goes here
-      console.log("Data saved!");
-    }    
+    <br class="clear">
 </div>
-
-<script id="django-admin-form-add-constants" src="/static/admin/js/change_form.js" data-model-name="candidate" async="">
-</script>
-
-
-
-
-<script id="django-admin-prepopulated-fields-constants" src="/static/admin/js/prepopulate_init.js" data-prepopulated-fields="[]">
-</script>
-
-
-</div>
-</form></div>
-
-      
-      <br class="clear">
-    </div>
     <!-- END Content -->
     <div id="footer"></div>
 </div>

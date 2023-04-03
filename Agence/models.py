@@ -212,6 +212,4 @@ class Postulation(models.Model):
         Candidate, on_delete=models.SET_DEFAULT, default=-1)
     offer = models.ForeignKey(Offer, on_delete=models.CASCADE, default=-1)
     application_date = models.DateField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ('candidate', 'offer')
+    acceptation = models.CharField(max_length=50,blank=True, null=True)

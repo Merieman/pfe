@@ -1,0 +1,38 @@
+{% extends "base.html" %} 
+{% load static %}
+{% block title%}
+Postulation  
+{% endblock title %}
+{% block content%}
+<table id="example" class="display datatable" style="width:100%">
+    <thead>
+        <tr>
+            <th>Candidate id</th>
+            <th>expertise field</th>
+            <th>Offer id</th>
+            <th>Offer field</th>
+            <th>Acceptation</th>
+        </tr>
+    </thead>
+</table>
+
+{% endblock content%}
+
+{% block scripts%}
+<script>
+    $(document).ready(function () {
+        var oTable = $('.datatable').dataTable({
+            // ...
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{% url 'postulationJson' %}"
+        });
+        // ...
+    });
+</script>
+{% endblock scripts%}
+
+
+
+
+
