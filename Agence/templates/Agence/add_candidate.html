@@ -14,15 +14,16 @@ Candidate
     <h1>Add candidate</h1>
     <div id="content-main">
         {{field}}
-        <form method="post" action="" id="candidate_form" novalidate="">
-            <input type="hidden" name="csrfmiddlewaretoken" value="bhdG9FZMToxc3YLtMIBgr5MfDMkEWztofwmTpPyCc3EahWuqJGP4zg0wMMpWxck9">
+        <form method="post" action="{% url 'save_condidate' %}" id="candidate_form" novalidate="">
+            {% csrf_token %}
             <div>
 
                 <fieldset class="module aligned ">
                     <div class="form-row field-first_name">
                         <div>
                             <label class="required" for="id_first_name">First name:</label>
-                            <input type="text" name="first_name" class="vTextField" maxlength="50" required="required" id="id_first_name">
+                            <input type="text" name="first_name" class="vTextField" maxlength="50" Required id="id_first_name" oninvalid="this.setCustomValidity('Please enter your first name')" 
+                            onchange="this.setCustomValidity('')">
                         </div>
                     </div>
                     <div class="form-row field-last_name">
@@ -34,7 +35,7 @@ Candidate
                     <div class="form-row field-birth_date">
                         <div>
                             <label class="required" for="id_birth_date">Birth date:</label>
-                            <input type="text" name="birth_date" class="vDateField" size="10" required="" id="id_birth_date"><span class="datetimeshortcuts">&nbsp;<a href="#">Today</a>&nbsp;|&nbsp;<a href="#" id="calendarlink0"><span class="date-icon" title="Choose a Date"></span></a></span>
+                            <input type="text" name="birth_date" class="S" size="10" required="" id="id_birth_date"><span class="datetimeshortcuts">&nbsp;<a href="#">Today</a>&nbsp;|&nbsp;<a href="#" id="calendarlink0"><span class="date-icon" title="Choose a Date"></span></a></span>
                         </div>
                     </div>
                     <div class="form-row field-gender">
@@ -135,7 +136,7 @@ Candidate
                     <input type="submit" value="Save" class="default" name="_save">
                     
                 </div>
-
+                <span class="error" style="display:none">Veuillez remplir le champ obligatoire</span><br>
                 <script id="django-admin-form-add-constants" src="/static/admin/js/change_form.js" data-model-name="candidate" async="">
                 </script>
                 <script id="django-admin-prepopulated-fields-constants" src="/static/admin/js/prepopulate_init.js" data-prepopulated-fields="[]">
@@ -144,6 +145,21 @@ Candidate
 
             </div>  
         </form>
+        <script>
+            function validateForm() {
+              var id = document.forms[0]["id_first_name"].value;
+              
+            
+              if (id == "") {
+                document.querySelector('.error').style.display = "block";
+                return false;
+              } else {
+                document.querySelector('.error').style.display = "none";
+              }
+            
+              // Autres validations si besoin
+            }
+            </script>
     </div>
 
       

@@ -5,25 +5,25 @@
 <body class="hold-transition sidebar-mini layout-fixed ">
     <div class="wrapper">
 
-        <!-- Preloader -->
-
+        
       
         <!-- Navbar -->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light fixed-top">
-          <!-- Left navbar links -->
           <ul class="navbar-nav">
             <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-              <div class="navbar-nav">
-              <a class="nav-item nav-link " href="{% url 'index' %}">Home </a>            </li>
-              {% if user.is_authenticated %}
-                <a class="nav-item nav-link " href="{% url 'logout' %}">Logout</a>
-              {% else %}
-                <a class="nav-item nav-link " href="{% url 'login' %}">Sign in</a>
-              {% endif %}
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                  <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                  <div class="navbar-nav">
+                    <a class="nav-item nav-link " href="{%url 'home_a' %}">Home </a>
+                    <a class="nav-item nav-link" href="{%url 'job' %}">Job</a>
+                    <a class="nav-item nav-link" href="{%url 'internship' %}">Internship</a>
+                    <a class="nav-item nav-link " href="{%url 'chooseS' %}">Sign up</a>
+                    <a class="nav-item nav-link " href="{%url 'chooseL' %}">Log in</a>
+                  </div>
+                </div>
+              </nav>
             </li>
             
           </ul>
@@ -35,7 +35,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
           <!-- Brand Logo -->
-          <a href="{% url 'index' %}" class="brand-link">
+          <a href="{% url 'home_a' %}" class="brand-link">
             <img src="{% static 'dist/img/logor.png'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">RecuitMe</span>
           </a>
@@ -45,7 +45,7 @@
 
 
 
-          {% include "sidebar.html" %}
+          {% include "sidebar_a.html" %}
         </aside>
       
         <!-- Content Wrapper. Contains page content -->

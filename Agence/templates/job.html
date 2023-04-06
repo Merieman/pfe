@@ -1,0 +1,111 @@
+{% extends "base_a.html" %} 
+{% load static %}
+{% block title%}
+Home  
+{% endblock title %}
+{% block content%}
+
+<div id="card-deck">
+    {% for obj in my_objects_job %}
+        {% if obj.job_type == "job" %}
+            <div class="col-sm-6 col-6">
+                <div class="card">
+                    <div class="card-header">{{ obj.title }}</div>
+                    <div class="card-body">
+                        <h6 class="card-title">{{ obj.workplace }}</h6>
+                        <p class="card-text" id="description">{{ obj.description }}</p>
+                        <a href="{% url 'more_info' obj.id %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>      
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
+</div>
+
+{% if has_more_job %}
+    <button id="show-more-btn" class="btn btn-primary">Show more</button>
+{% endif %}
+
+
+       
+
+
+{% endblock content%}
+{% block scripts%}
+<script>
+    function showMore_job() {
+        var numCards = $('.card').length;
+        $.ajax({
+            url: '/?num_cards_job=' + numCards,
+            success: function(data) {
+                if (data.trim()) {
+                    $('#card-deck').append(data);
+                    // Check if there are still cards to show after appending new cards
+                    if ($('#card-deck .card').length == numCards) {
+                        $('#show-more-btn').hide();
+                    }
+                } else {
+                    $('#show-more-btn').hide();
+                }
+            }
+        });
+    }
+    
+    $(document).ready(function() {
+        $('#show-more-btn').click(function() {
+            showMore_job();
+        });
+        
+        // Check for cards on page load
+        if ($('#card-deck .card').length == 0) {
+            $('#show-more-btn').hide();
+        }
+    });
+    
+    
+</script>
+<script>
+    const searchInput = document.getElementById("sidebar-search-input");
+    const searchButton = document.getElementById("sidebar-search-button");
+    const sidebarElements = document.querySelectorAll(".nav-sidebar .nav-item .nav-link");
+  
+    function search() {
+      const query = searchInput.value.toLowerCase();
+      for (let i = 0; i < sidebarElements.length; i++) {
+        const sidebarElementText = sidebarElements[i].textContent.toLowerCase();
+        if (sidebarElementText.includes(query)) {
+          sidebarElements[i].classList.remove("d-none");
+        } else {
+          sidebarElements[i].classList.add("d-none");
+        }
+      }
+    }
+  
+    searchButton.addEventListener("click", search);
+    searchInput.addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        search();
+      }
+    });
+</script>
+<script>
+    function truncateDescription() {
+      var descriptions = document.getElementsByClassName("card-text");
+      var maxLength = 150;
+  
+      for (var i = 0; i < descriptions.length; i++) {
+        var description = descriptions[i];
+  
+        if (description.innerHTML.length > maxLength) {
+          description.innerHTML = description.innerHTML.slice(0, maxLength) + '...';
+        }
+      }
+    }
+  
+    window.onload = truncateDescription;
+  </script>
+  
+  
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+{% endblock scripts%}

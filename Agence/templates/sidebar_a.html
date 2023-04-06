@@ -13,6 +13,7 @@
                   </div>
                 </div>
             </div>
+              
       
             <!-- Sidebar Menu -->
             <nav class="mt-2">
@@ -23,73 +24,45 @@
 
                 <li class="nav-item">
                   <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-copy"></i>
+                    <i class="nav-icon fas fa-briefcase"></i>
                     <p>
-                        Data Management
+                        Offers
                       <i class="fas fa-angle-left right"></i>
                     </p>
                   </a>
                   <ul class="nav nav-treeview">
                     <li class="nav-item">
-                      <a href="{% url 'candidate' %}" class="nav-link">
+                      <a href="{%url 'job' %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Candidate</p>
+                        <p>Job</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="{% url 'company' %}" class="nav-link">
+                      <a href="{% url 'internship' %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
-                        <p>Company</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="{% url 'offer' %}" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Offer</p>
-                      </a>
-  
-                  </ul>
-                </li>
-
-                <li class="nav-header">EXAMPLES</li>
-                <li class="nav-item">
-                  <a href="{% url 'postulation' %}" class="nav-link">
-                    <i class="nav-icon fas fa-handshake"></i>
-                    <p>
-                      Postulation
-                      <span class="badge badge-info right">2</span>
-                    </p>
-                  </a>
-                </li>
-               
-
-          
-   
-                <li class="nav-item">
-                  <a href="#" class="nav-link">
-                    <i class="nav-icon fas fa-search"></i>
-                    <p>
-                      Search
-                      <i class="fas fa-angle-left right"></i>
-                    </p>
-                  </a>
-                  <ul class="nav nav-treeview">
-                    <li class="nav-item">
-                      <a href="pages/search/simple.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Simple Search</p>
-                      </a>
-                    </li>
-                    <li class="nav-item">
-                      <a href="pages/search/enhanced.html" class="nav-link">
-                        <i class="far fa-circle nav-icon"></i>
-                        <p>Enhanced</p>
+                        <p>Internship</p>
                       </a>
                     </li>
                   </ul>
                 </li>
+
+                <li class="nav-item">
+                  <a href="{% url 'contact' %}" class="nav-link">
+                    <i class="nav-icon fas fa-comments"></i>
+                    <p>
+                      Contact
+                    </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'about' %}" class="nav-link">
+                      <i class="nav-icon fas fa-info-circle"></i>
+                      <p>
+                        About us
+                      </p>
+                    </a>
+                  </li>
               </ul>
             </nav>
-            <!-- /.sidebar-menu -->
           </div>
           <!-- /.sidebar -->

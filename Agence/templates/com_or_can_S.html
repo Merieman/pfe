@@ -1,0 +1,23 @@
+{% extends "base_a.html" %} 
+{% load static %}
+
+{% block content%}
+<div class="header">
+  <h1>Choose your profile type:</h1>
+</div>
+<div class="button-group">
+  <div class="d-flex justify-content-center mt-5">
+    <a href="{% url 'sign_can' %}">
+     <button type="button" class="btn btn-outline-secondary btn-lg mr-2" style="font-size: 24px;">Candidate</button>
+    </a>
+     <a href="{% url 'sign_com' %}">
+      <button type="button" class="btn btn-outline-secondary btn-lg ml-2" style="font-size: 24px;">Company</button>
+  </a>
+  
+</div>
+
+  
+
+</div>
+
+{% endblock content%}

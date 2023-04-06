@@ -53,3 +53,29 @@ Control Board
   </div> 
 
 {% endblock content%}
+{% block scripts%}
+<script>
+  const searchInput = document.getElementById("sidebar-search-input");
+  const searchButton = document.getElementById("sidebar-search-button");
+  const sidebarElements = document.querySelectorAll(".nav-sidebar .nav-item .nav-link");
+
+  function search() {
+    const query = searchInput.value.toLowerCase();
+    for (let i = 0; i < sidebarElements.length; i++) {
+      const sidebarElementText = sidebarElements[i].textContent.toLowerCase();
+      if (sidebarElementText.includes(query)) {
+        sidebarElements[i].classList.remove("d-none");
+      } else {
+        sidebarElements[i].classList.add("d-none");
+      }
+    }
+  }
+
+  searchButton.addEventListener("click", search);
+  searchInput.addEventListener("keydown", function(event) {
+    if (event.key === "Enter") {
+      search();
+    }
+  });
+</script>
+{% endblock scripts%}

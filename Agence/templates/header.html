@@ -44,8 +44,41 @@
     <link rel="stylesheet" href="/static/admin/css/responsive.css">
     
 
-<meta name="robots" content="NONE,NOARCHIVE">
+  <meta name="robots" content="NONE,NOARCHIVE">
 
-  </head>
+
+    <script src="{% static 'jquery.min.js' %}"></script>
+    <style>
+      .fixed-card {
+        position: fixed;
+        top: 50px;
+        right: 0;
+        width: 300px;
+      }
+      body {
+        padding-top: 56px; /* 56px is the height of the navbar */
+      }
+      .card-text {
+        max-height: 100px; /* set the maximum height for the paragraph element */
+        overflow: hidden; /* hide any text that overflows the maximum height */
+      }
+      .header {
+        margin-bottom: 30px;
+      }
+      
+      .button-group {
+        margin-top: 30px;
+      }
+      .required::after {
+        content: " *";
+        color: red;
+      }
+      
+      
+    </style>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+</head>
 
  
