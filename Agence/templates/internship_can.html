@@ -1,20 +1,20 @@
-{% extends "base_a.html" %} 
+{% extends "base_can.html" %} 
 {% load static %}
 {% block title%}
-Job   
+Internship 
 {% endblock title %}
 {% block content%}
 
 <div id="card-deck">
-    {% for obj in my_objects_job %}
-        {% if obj.job_type == "job" %}
+    {% for obj in my_objects_int %}
+        {% if obj.job_type == "internship" %}
             <div class="col-sm-6 col-6">
                 <div class="card">
                     <div class="card-header">{{ obj.title }}</div>
                     <div class="card-body">
                         <h6 class="card-title">{{ obj.workplace }}</h6>
                         <p class="card-text" id="description">{{ obj.description }}</p>
-                        <a href="{% url 'more_info' obj.id %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>      
+                        <a href="{% url 'more_infoc' obj.id %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>      
                     </div>
                 </div>
             </div>
@@ -22,7 +22,7 @@ Job
     {% endfor %}
 </div>
 
-{% if has_more_job %}
+{% if has_more_int %}
     <button id="show-more-btn" class="btn btn-primary">Show more</button>
 {% endif %}
 
@@ -33,10 +33,10 @@ Job
 {% endblock content%}
 {% block scripts%}
 <script>
-    function showMore_job() {
+    function showMore_int() {
         var numCards = $('.card').length;
         $.ajax({
-            url: '/?num_cards_job=' + numCards,
+            url: '/?num_cards_int=' + numCards,
             success: function(data) {
                 if (data.trim()) {
                     $('#card-deck').append(data);
@@ -53,7 +53,7 @@ Job
     
     $(document).ready(function() {
         $('#show-more-btn').click(function() {
-            showMore_job();
+            showMore_int();
         });
         
         // Check for cards on page load

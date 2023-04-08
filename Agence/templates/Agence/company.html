@@ -4,7 +4,11 @@
 Company  
 {% endblock title %}
 {% block content%}
-
+<a href="{% url 'add_company' %}">
+    <button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#modal-lg">
+        Add company
+    </button>
+</a>
 <table id="example" class="display datatable" style="width:100%">
     <thead>
         <tr>

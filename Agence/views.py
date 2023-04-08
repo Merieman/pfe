@@ -1,11 +1,9 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import *
 from django_datatables_view.base_datatable_view import BaseDatatableView
-from django.utils.html import escape
 from django.db.models import Q
-from django import forms
-from .forms import candidateformm
 from django.http import JsonResponse
+from django.urls import reverse
 
 
 def home(request):
@@ -42,6 +40,12 @@ def S_c_c(request):
 
 def about_us(request):
     return render(request, 'about_us.html')
+
+def about_us_can(request):
+    return render(request, 'about_us_can.html')
+
+def about_us_com(request):
+    return render(request, 'about_us_com.html')
 
 def sign_can(request):
     candidateC=Candidate.objects.all()
@@ -93,6 +97,32 @@ def home_a(request):
         return render(request, 'my_cards_a.html', context)
     return render(request, 'accueil.html', context)
 
+
+def home_com(request, obj_id):
+    obj = get_object_or_404(Company, pk=obj_id)
+    offerO = Offer.objects.filter(company=obj_id)
+    count_all = 0
+    if offerO.count()==0:
+        offer_count=0
+    else:
+        offer_count= offerO.count()
+        for objo in offerO:
+            postP = Postulation.objects.filter(offer=objo.id, acceptation='accepted')
+            acc = postP.count()
+            count_all += acc
+        
+    
+    context = {
+        'obj': obj,
+        'offer_count': offer_count,
+        'count_all': count_all
+    }
+    return render(request, 'accueil_com.html', context)
+
+
+def home_can(request):
+    return render(request, 'accueil_can.html' )
+
 def internship_a(request):
     num_cards_int = int(request.GET.get('num_cards_int', 0))
     internship_offer = Offer.objects.filter(job_type='internship')[num_cards_int:num_cards_int+5]
@@ -111,6 +141,23 @@ def internship_a(request):
         return render(request, 'cards_int.html', context)
     return render(request, 'internship.html', context)
 
+def internship_can(request):
+    num_cards_int = int(request.GET.get('num_cards_int', 0))
+    internship_offer = Offer.objects.filter(job_type='internship')[num_cards_int:num_cards_int+5]
+
+    has_more_int = Offer.objects.filter(job_type='internship').count() > num_cards_int + 5
+    if not has_more_int:
+        show_button_int = False
+    else:
+        show_button_int = True
+
+    context={
+        "my_objects_int": internship_offer,
+        "has_more_int": show_button_int
+    }
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'cards_intc.html', context)
+    return render(request, 'internship_can.html', context)
 
 def job_a(request):
     num_cards_job = int(request.GET.get('num_cards_job', 0))
@@ -130,12 +177,47 @@ def job_a(request):
         return render(request, 'card_job.html', context)
     return render(request, 'job.html', context)
 
+def job_can(request):
+    num_cards_job = int(request.GET.get('num_cards_job', 0))
+    job_offer = Offer.objects.filter(job_type='job')[num_cards_job:num_cards_job+5]
+
+    has_more_job = Offer.objects.filter(job_type='job').count() > num_cards_job + 5
+    if not has_more_job:
+        show_button_job = False
+    else:
+        show_button_job = True
+
+    context={
+        "my_objects_job": job_offer,
+        "has_more_job": show_button_job
+    }
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'card_jobc.html', context)
+    return render(request, 'job_can.html', context)
+
+
+
 def more_info(request, id):
     obj = Offer.objects.get(id=id)
     return render(request, 'more_info.html', {'obj': obj})
 
+def more_infoc(request, id):
+    obj = Offer.objects.get(id=id)
+    return render(request,'more_infoc.html', {'obj': obj})
+
+def pers_info(request, id):
+    obj = Candidate.objects.get(id_candidate=id)
+    return render(request, 'contact.html', {'obj': obj})
+
+
 def contact(request):
     return render(request, 'contact.html')
+
+def contact_can(request):
+    return render(request, 'contact_can.html')
+
+def contact_com(request):
+    return render(request, 'contact_com.html')
 
 
 
@@ -151,10 +233,8 @@ def get_postulation (request):
     return render (request, 'Agence/postulation.html', context)
 def get_candidate (request):
     candidateC=Candidate.objects.all()
-    fieldcandidate=candidateformm
     context={
         "candidate":candidateC,
-        "field":fieldcandidate
     }
     return render (request, 'Agence/candidate.html', context)
 
@@ -180,8 +260,104 @@ def get_add_candidate (request):
     }
     return render (request, 'Agence/add_candidate.html', context)
 
+def get_add_company(request):
+    companyC=Company.objects.all()
+    context={
+        "company":companyC
+    }
+    return render (request, 'Agence/add_company.html', context)
+
+def save_com(request ):
+    company_name=request.POST.get('company_name')
+    address = request.POST.get('address')
+    email= request.POST.get('email')
+    password=request.POST.get('password')
+    if request.POST.get('creation_date') == "":
+        creation_date=None
+    else:
+        creation_date=request.POST.get('creation_date')
+    business_sector=request.POST.get('business_sector')
+    headquarters=request.POST.get('headquarters')
+    phone_number=request.POST.get('phone_number')
+    website=request.POST.get('website')
+    linkedin=request.POST.get('linkedin')
+    if request.POST.get('size') == "":
+        size=0
+    else:
+        size=request.POST.get('size')
+    # Create a new Company instance and save it to the database
+    Company.objects.create(
+        company_name=company_name,
+        address=address,
+        business_sector=business_sector,
+        size=size,
+        creation_date=creation_date,
+        headquarters=headquarters,
+        website=website,
+        phone_number=phone_number,
+        email_address=email,
+        linkedin_url=linkedin,
+        password=password,
+    )
+    return redirect('company')
+
+def save_signup_com(request , email):
+    company_name=request.POST.get('company_name')
+    address = request.POST.get('address')
+    email= request.POST.get('email')
+    password=request.POST.get('password')
+    if request.POST.get('creation_date') == "":
+        creation_date=None
+    else:
+        creation_date=request.POST.get('creation_date')
+    business_sector=request.POST.get('business_sector')
+    headquarters=request.POST.get('headquarters')
+    phone_number=request.POST.get('phone_number')
+    website=request.POST.get('website')
+    linkedin=request.POST.get('linkedin')
+    if request.POST.get('size') == "":
+        size=0
+    else:
+        size=request.POST.get('size')
+    # Create a new Company instance and save it to the database
+    Company.objects.create(
+        company_name=company_name,
+        address=address,
+        business_sector=business_sector,
+        size=size,
+        creation_date=creation_date,
+        headquarters=headquarters,
+        website=website,
+        phone_number=phone_number,
+        email_address=email,
+        linkedin_url=linkedin,
+        password=password,
+    )
+    obj = Company.objects.get(email_address=email)
+    return redirect(reverse('home_com', args=[obj.pk]))
+
+def save_signup_can(request):
+    first_name = request.POST.get('first_name')
+    last_name = request.POST.get('last_name')
+    birth_date = request.POST.get('birth_date')
+    gender = request.POST.get('gender')
+    phone_number = request.POST.get('phone_number')
+    email = request.POST.get('email')
+    password=request.POST.get('password')
+    # Create a new Candidate instance and save it to the database
+    Candidate.objects.create(
+        first_name=first_name,
+        last_name=last_name,
+        birth_date=birth_date,
+        gender=gender,
+        phone_number=phone_number,
+        email=email,
+        password=password,
+    )
+
+    return redirect('home_can')
+
 def save(request):
-    # Retrieve form data from POST request
     first_name = request.POST.get('first_name')
     last_name = request.POST.get('last_name')
     birth_date = request.POST.get('birth_date')

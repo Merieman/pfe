@@ -1,0 +1,98 @@
+{% extends 'base_can.html' %}
+{% load static %}
+{% block title%}
+{{ obj.title }}
+{% endblock title %}
+{% block content %}
+<div class="container">
+    <table class="table table-bordered">
+        <tbody>
+            {% if obj.job_type %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-briefcase"></i> Job Type:</td>
+                    <td class="col-md-10">{{ obj.job_type }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.field %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-industry"></i> Field:</td>
+                    <td class="col-md-10">{{ obj.field }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.description %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-align-left"></i> Description:</td>
+                    <td class="col-md-10">{{ obj.description }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.skills %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-tasks"></i> Skills:</td>
+                    <td class="col-md-10">{{ obj.skills }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.education_level %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-graduation-cap"></i> Education Level:</td>
+                    <td class="col-md-10">{{ obj.education_level }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.workplace %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-map-marker-alt"></i> Workplace:</td>
+                    <td class="col-md-10">{{ obj.workplace }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.contract_type %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-file-contract"></i> Contract Type:</td>
+                    <td class="col-md-10">{{ obj.contract_type }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.contract_duration %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-calendar-alt"></i> Contract Duration:</td>
+                    <td class="col-md-10">{{ obj.contract_duration }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.salary %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-money-bill-wave"></i> Salary:</td>
+                    <td class="col-md-10">{{ obj.salary }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.start_date %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-calendar-day"></i> Start Date:</td>
+                    <td class="col-md-10">{{ obj.start_date }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.benefits %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-gift"></i> Benefits:</td>
+                    <td class="col-md-10">{{ obj.benefits }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.number_of_positions %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-users"></i> Number of Positions:</td>
+                    <td class="col-md-10">{{ obj.number_of_positions }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.languages %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-language"></i> Languages:</td>
+                    <td class="col-md-10">{{ obj.languages }}</td>
+                </tr>
+            {% endif %}
+            {% if obj.deadline %}
+                <tr>
+                    <td class="col-md-2"><i class="fas fa-hourglass-end"></i> Deadline:</td>
+                    <td class="col-md-10">{{ obj.deadline }}</td>
+                </tr>
+            {% endif %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

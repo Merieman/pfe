@@ -5,11 +5,12 @@ Sign Up
 {% endblock title %}
 {% block content%}
 
-<form class="needs-validation" novalidate>
+<form action="{% url 'save_signup_com' 'email' %}" method="POST" class="needs-validation" novalidate>
+  {% csrf_token %}
   <div class="form-row">
     <div class="col-md-3 mb-3">
       <label for="validationCustom01" class="required">Company name</label>
-      <input type="text" class="form-control" id="validationCustom01" placeholder="Company name"  required><div class="invalid-feedback">
+      <input name="company_name" type="text" class="form-control" id="validationCustom01" placeholder="Company name"  required><div class="invalid-feedback">
         Please provide your company name.
       </div>
     </div>
@@ -17,14 +18,14 @@ Sign Up
     
     <div class="col-md-3 mb-3">
       <label for="validationCustom05" class="required">Email</label>
-      <input type="text" class="form-control" id="validationCustom05" placeholder="Email" required>
+      <input name="email" type="text" class="form-control" id="validationCustom05" placeholder="Email" required>
       <div class="invalid-feedback">
         Please provide your email.
       </div>
     </div>
     <div class="col-md-3 mb-2">
       <label for="validationCustom03" class="required">Password</label>
-      <input type="password" class="form-control" id="validationCustom03" placeholder="Choose a password" required>
+      <input name="password" type="password" class="form-control" id="validationCustom03" placeholder="Choose a password" required>
       <div class="invalid-feedback">
         Please provide a password.
       </div>
@@ -33,21 +34,21 @@ Sign Up
     <div class="form-row">
       <div class="col-md-5 mb-3">
         <label for="validationCustom03" class="required">Address</label>
-        <input type="text" class="form-control" id="validationCustom03" placeholder="Address" required>
+        <input name="address" type="text" class="form-control" id="validationCustom03" placeholder="Address" required>
         <div class="invalid-feedback">
           Please provide your company address.
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label for="validationCustom04" class="required">Business Sector</label>
-        <input type="text" class="form-control" id="validationCustom04" placeholder="Business Sector" required>
+        <input name="business_sector" type="text" class="form-control" id="validationCustom04" placeholder="Business Sector" required>
         <div class="invalid-feedback">
           Please provide your company business sector.
         </div>
       </div>
       <div class="col-md-3 mb-3">
         <label for="validationCustom05" class="required">Headquarters</label>
-        <input type="text" class="form-control" id="validationCustom05" placeholder="Headquarters" required>
+        <input name="headquarters" type="text" class="form-control" id="validationCustom05" placeholder="Headquarters" required>
         <div class="invalid-feedback">
             Please provide your company headquarters.
           </div>
@@ -56,34 +57,35 @@ Sign Up
     <div class="form-row">
         <div class="col-md-3 mb-3">
           <label for="validationCustom03">Phone Number</label>
-          <input type="text" class="form-control" id="validationCustom03" placeholder="Phone Number" >
+          <input name="phone_number" type="text" class="form-control" id="validationCustom03" placeholder="Phone Number" >
         </div>
         <div class="col-md-4 mb-3">
           <label for="validationCustom04">Website</label>
-          <input type="text" class="form-control" id="validationCustom04" placeholder="Website" >
+          <input name="website" type="text" class="form-control" id="validationCustom04" placeholder="Website" >
         </div>
         <div class="col-md-4 mb-3">
           <label for="validationCustom05">Linkedin</label>
-          <input type="text" class="form-control" id="validationCustom05" placeholder="Linkedin" >
+          <input name="linkedin" type="text" class="form-control" id="validationCustom05" placeholder="Linkedin" >
         </div>
     </div>   
     <div class="form-row">
-        <div class="col-md-3 mb-3">
-          <label for="validationCustom03">Size</label>
-          <input type="text" class="form-control" id="validationCustom03" placeholder="Size" >
-        </div>
+      <div class="col-md-1 mb-2" >
+        <label for="validationCustom03">Size</label>
+        <input type="number" name="size" class="vIntegerField" id="id_size">
+      </div>
         <div class="col-md-3 mb-3">
           <label for="validationCustom04">Creation Date</label>
           <div class="input-group">
-            <input type="text" class="form-control vDateField" id="validationCustom04" placeholder="Creation Date"  size="10" >
+            <input name="creation_date" type="text" class="form-control vDateField" id="validationCustom04" placeholder="Creation Date"  size="10" >
           </div>
         </div>
+        
 
     </div>    
-    <button class="btn btn-primary" type="submit" style="margin-bottom: 10px;">Sign up</button>
-    <p> You already have an account ? <a href="{% url 'log_com' %}">Log in</a></p>
+    <input class="btn btn-primary" type="submit" value="Sign up" style="margin-bottom: 10px; background-color: #007bff;">
   </form>
-  
+  <p> You already have an account ? <a href="{% url 'log_com' %}">Log in</a></p>
+
   <script>
   // Example starter JavaScript for disabling form submissions if there are invalid fields
   (function() {

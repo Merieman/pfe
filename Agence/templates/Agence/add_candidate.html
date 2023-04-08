@@ -2,19 +2,13 @@
 {% extends "base.html" %} 
 {% load static %}
 {% block title%}
-Candidate  
+Add candidate  
 {% endblock title %}
 {% block content%}
 <div class="content">
-        
-          
-        
-    <!-- Content -->
 <div id="content" class="colM">
-    <h1>Add candidate</h1>
     <div id="content-main">
-        {{field}}
-        <form method="post" action="{% url 'save_condidate' %}" id="candidate_form" novalidate="">
+        <form method="post" action="{% url 'save_condidate' %}" id="candidate_form" class="needs-validation" novalidate>
             {% csrf_token %}
             <div>
 
@@ -22,38 +16,48 @@ Candidate
                     <div class="form-row field-first_name">
                         <div>
                             <label class="required" for="id_first_name">First name:</label>
-                            <input type="text" name="first_name" class="vTextField" maxlength="50" Required id="id_first_name" oninvalid="this.setCustomValidity('Please enter your first name')" 
-                            onchange="this.setCustomValidity('')">
+                            <input type="text" name="first_name" class="vTextField" maxlength="50" required id="id_first_name" >
+                            <div class="invalid-feedback">
+                                Please provide the first name.
+                              </div>
                         </div>
                     </div>
                     <div class="form-row field-last_name">
                         <div>
                             <label class="required" for="id_last_name">Last name:</label>
                             <input type="text" name="last_name" class="vTextField" maxlength="50" required="" id="id_last_name">
+                            <div class="invalid-feedback">
+                                Please provide the last name.
+                              </div>
                         </div>
                     </div>
                     <div class="form-row field-birth_date">
-                        <div>
+                        <div class="input-group">
                             <label class="required" for="id_birth_date">Birth date:</label>
-                            <input type="text" name="birth_date" class="S" size="10" required="" id="id_birth_date"><span class="datetimeshortcuts">&nbsp;<a href="#">Today</a>&nbsp;|&nbsp;<a href="#" id="calendarlink0"><span class="date-icon" title="Choose a Date"></span></a></span>
+                            
+                            <input type="text" name="birth_date" class="vDateField " size="5" required="" id="id_birth_date">
+                            <div class="invalid-feedback">
+                                Please provide the birth date .
+                              </div>
                         </div>
                     </div>
                     <div class="form-row field-gender">
                         <div>
-                            <label class="required" for="id_gender">Gender:</label>
-                            <input type="text" name="gender" class="vTextField" maxlength="10" required="" id="id_gender">                   
+                            <label  for="id_gender">Gender:</label>
+                            <input type="text" name="gender" class="vTextField" maxlength="10"  id="id_gender">                   
                         </div>       
                     </div>
                     <div class="form-row field-nationality">    
                         <div>
-                            <label class="required" for="id_nationality">Nationality:</label>                   
-                            <input type="text" name="nationality" class="vTextField" maxlength="50" required="" id="id_nationality">    
+                            <label  for="id_nationality">Nationality:</label>                   
+                            <input type="text" name="nationality" class="vTextField" maxlength="50"  id="id_nationality">    
+                            
                         </div>
                     </div>
                     <div class="form-row field-address">
                         <div>
-                            <label class="required" for="id_address">Address:</label>                    
-                            <textarea name="address" cols="40" rows="10" class="vLargeTextField" required="" id="id_address"></textarea>     
+                            <label  for="id_address">Address:</label>                    
+                            <textarea name="address" cols="40" rows="10" class="vLargeTextField" id="id_address"></textarea>     
                         </div>       
                     </div>
                     <div class="form-row field-driving_license">
@@ -65,21 +69,26 @@ Candidate
                     </div>
                     <div class="form-row field-city">
                         <div>
-                            <label class="required" for="id_city">City:</label>
-                            <input type="text" name="city" class="vTextField" maxlength="50" required="" id="id_city">   
+                            <label  for="id_city">City:</label>
+                            <input type="text" name="city" class="vTextField" maxlength="50" id="id_city">   
                         </div>
                     </div>
                     <div class="form-row field-phone_number">
                         <div>
                             <label class="required" for="id_phone_number">Phone number:</label>
                             <input type="text" name="phone_number" class="vTextField" maxlength="20" required="" id="id_phone_number">   
+                            <div class="invalid-feedback">
+                                Please provide the phone number.
+                              </div>
                         </div>
                     </div>
                     <div class="form-row field-email">
                         <div>
                             <label class="required" for="id_email">Email:</label>
-                    
                             <input type="email" name="email" class="vTextField" maxlength="254" required="" id="id_email">
+                            <div class="invalid-feedback">
+                                Please provide the email.
+                              </div>
                         </div>       
                     </div>
                     <div class="form-row field-linkedin">
@@ -110,76 +119,70 @@ Candidate
                     </div>
                     <div class="form-row field-education_level">
                         <div>
-                            <label class="required" for="id_education_level">Education level:</label>
+                            <label  for="id_education_level">Education level:</label>
                     
-                            <input type="text" name="education_level" class="vTextField" maxlength="50" required="" id="id_education_level">
+                            <input type="text" name="education_level" class="vTextField" maxlength="50"   id="id_education_level">
                         </div>
                     </div>
                     <div class="form-row field-expertise_field">
                         <div>
-                            <label class="required" for="id_expertise_field">Expertise field:</label>
+                            <label  for="id_expertise_field">Expertise field:</label>
                     
-                            <input type="text" name="expertise_field" class="vTextField" maxlength="50" required="" id="id_expertise_field">                
+                            <input type="text" name="expertise_field" class="vTextField" maxlength="50"  id="id_expertise_field">                
                         </div>       
                     </div>
                     <div class="form-row field-password">
                         <div>
                             <label class="required" for="id_password">Password:</label>
-                    
                             <input type="text" name="password" class="vTextField" maxlength="128" required="" id="id_password">
+                            <div class="invalid-feedback">
+                                Please provide the password.
+                              </div>
                         </div>
                     </div>
                 </fieldset>
                 <div class="submit-row">
 
-                    <input type="submit" value="Cancel" class="default" name="_cancel">
                     <input type="submit" value="Save" class="default" name="_save">
                     
                 </div>
-                <span class="error" style="display:none">Veuillez remplir le champ obligatoire</span><br>
-                <script id="django-admin-form-add-constants" src="/static/admin/js/change_form.js" data-model-name="candidate" async="">
-                </script>
-                <script id="django-admin-prepopulated-fields-constants" src="/static/admin/js/prepopulate_init.js" data-prepopulated-fields="[]">
-                </script>
+                
 
 
             </div>  
         </form>
-        <script>
-            function validateForm() {
-              var id = document.forms[0]["id_first_name"].value;
-              
-            
-              if (id == "") {
-                document.querySelector('.error').style.display = "block";
-                return false;
-              } else {
-                document.querySelector('.error').style.display = "none";
-              }
-            
-              // Autres validations si besoin
-            }
-            </script>
+        
     </div>
 
       
-    <br class="clear">
 </div>
-    <!-- END Content -->
-    <div id="footer"></div>
-</div>
-{% endblock content%}
 
+{% endblock content%}
 {% block scripts%}
 <script>
-    $(document).ready(function () {
-        var oTable = $('.datatable').dataTable({
-            // ...
-            "processing": true,
-            "serverSide": true,
-            "ajax": "{% url 'candidateJson' %}"
-        });
-        // ...
-    });
-</script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+  </script>
 {% endblock scripts%}
+
+
+
+
+
+

@@ -1,0 +1,113 @@
+{% load static %} 
+          <!-- Sidebar -->
+          <div class="sidebar collapsed">
+      
+            <!-- SidebarSearch Form -->
+            <div class="form-inline">
+                <div class="input-group" data-widget="sidebar-search">
+                  <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search" id="sidebar-search-input">
+                  <div class="input-group-append">
+                    <button class="btn btn-sidebar" id="sidebar-search-button">
+                      <i class="fas fa-search fa-fw"></i>
+                    </button>
+                  </div>
+                </div>
+            </div>
+              
+      
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+              <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                     with font-awesome or any other icon font library -->
+
+
+                <li class="nav-item">
+                  <a href="#" class="nav-link">
+                    <i class="nav-icon fas fa-briefcase"></i>
+                    <p>
+                        Offers
+                      <i class="fas fa-angle-left right"></i>
+                    </p>
+                  </a>
+                  <ul class="nav nav-treeview">
+                    <li class="nav-item">
+                      <a href="{%url 'job_can' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Job</p>
+                      </a>
+                    </li>
+                    <li class="nav-item">
+                      <a href="{% url 'internship_can' %}" class="nav-link">
+                        <i class="far fa-circle nav-icon"></i>
+                        <p>Internship</p>
+                      </a>
+                    </li>
+                  </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-history"></i>
+                      <p>
+                        Applied offers
+                        <i class="fas fa-angle-left right"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{%url 'job' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Applied job offers</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'internship' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Applied internship offers</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                  <li class="nav-item">
+                    <a href="#" class="nav-link">
+                      <i class="nav-icon fas fa-cog"></i>
+                      <p>
+                          Account
+                        <i class="fas fa-angle-left right"></i>
+                      </p>
+                    </a>
+                    <ul class="nav nav-treeview">
+                      <li class="nav-item">
+                        <a href="{%url 'job' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>Personal information</p>
+                        </a>
+                      </li>
+                      <li class="nav-item">
+                        <a href="{% url 'internship' %}" class="nav-link">
+                          <i class="far fa-circle nav-icon"></i>
+                          <p>My resume</p>
+                        </a>
+                      </li>
+                    </ul>
+                  </li>
+                <li class="nav-item">
+                  <a href="{% url 'contact_can' %}" class="nav-link">
+                    <i class="nav-icon fas fa-comments"></i>
+                    <p>
+                      Contact
+                    </p>
+                  </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'about_can' %}" class="nav-link">
+                      <i class="nav-icon fas fa-info-circle"></i>
+                      <p>
+                        About us
+                      </p>
+                    </a>
+                  </li>
+              </ul>
+            </nav>
+          </div>
+          <!-- /.sidebar -->

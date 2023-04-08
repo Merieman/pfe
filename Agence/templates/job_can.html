@@ -1,7 +1,7 @@
-{% extends "base_a.html" %} 
+{% extends "base_can.html" %} 
 {% load static %}
 {% block title%}
-Job   
+Job  
 {% endblock title %}
 {% block content%}
 
@@ -14,7 +14,7 @@ Job
                     <div class="card-body">
                         <h6 class="card-title">{{ obj.workplace }}</h6>
                         <p class="card-text" id="description">{{ obj.description }}</p>
-                        <a href="{% url 'more_info' obj.id %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>      
+                        <a href="{% url 'more_infoc' obj.id %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>      
                     </div>
                 </div>
             </div>
