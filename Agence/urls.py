@@ -14,6 +14,7 @@ urlpatterns = [
     path('job_can/<int:id>/', job_can, name="job_can"),
     path('app_job/<int:id>/', app_job , name="app_job"),
     path('app_int/<int:id>/', app_int , name="app_int"),
+    path('list_can/<int:id>/', list_cand, name="list_can"),
     path('internship_can/<int:id>/', internship_can, name="internship_can"),
     path('more_info/<int:id>/', more_info, name='more_info'),
     path('more_infoc/<int:id>/<int:idf>/', more_infoc, name='more_infoc'),
@@ -39,6 +40,9 @@ urlpatterns = [
     path('save_condidate', save, name="save_condidate"),
     path('save_company', save_com, name="save_company"),
     path('save_signup_can', save_signup_can, name="save_signup_can"),
+    path('save_login_can', save_login_can, name="save_login_can"),
+    path('save_login_com', save_login_com, name="save_login_com"),
+
     path('perso_info/<int:id>/', perso_info , name= "perso_info"),
     path('perso_info_save/<int:id>/', perso_info_save , name= "perso_info_save"),
     path('my_resume/<int:id>/', my_resume , name= "my_resume"),

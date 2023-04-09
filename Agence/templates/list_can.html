@@ -1,0 +1,137 @@
+{% extends "base_com.html" %} 
+{% load static %}
+ {% block title%} Candidate
+  {%endblock title %} 
+  {% block content%}
+
+<div id="card-deck">
+  {% for objc in obj_can %}
+  <div class="col-sm-6 col-6">
+    <div class="card">
+      <div class="card-header">Candidate id: {{ objc.id_candidate }}</div>
+      <div class="card-body">
+        <h6 class="card-title">Email:</h6>
+        <p class="card-text" id="email" data-fulltext="{{ objc.email }}">
+          {{ objc.email }}
+        </p>
+        <h6 class="card-title">Expertise field:</h6>
+        <p
+          class="card-text"
+          id="expertise_field"
+          data-fulltext="{{ objc.expertise_field }}"
+        >
+          {{ objc.expertise_field }}
+        </p>
+        <h6 class="card-title">Education level:</h6>
+        <p
+          class="card-text"
+          id="education_level"
+          data-fulltext="{{ objc.education_level }}"
+        >
+          {{ objc.education_level }}
+        </p>
+        <h6 class="card-title">Technical skills:</h6>
+        <p
+          class="card-text"
+          id="technical_skills"
+          data-fulltext="{{ objc.technical_skills }}"
+        >
+          {{ objc.technical_skills }}
+        </p>
+        <h6 class="card-title">Social skills:</h6>
+        <p
+          class="card-text"
+          id="social_skills"
+          data-fulltext="{{ objc.social_skills }}"
+        >
+          {{ objc.social_skills }}
+        </p>
+        <h6 class="card-title">Language skills:</h6>
+        <p
+          class="card-text"
+          id="language_skills"
+          data-fulltext="{{ objc.language_skills }}"
+        >
+          {{ objc.language_skills }}
+        </p>
+        <h6 class="card-title">Driving license:</h6>
+        <p
+          class="card-text"
+          id="driving_license"
+          data-fulltext="{{ objc.driving_license }}"
+        >
+          {{ objc.driving_license }}
+        </p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+<div id="company-id" data-company-id="{{ company.id }}"></div>
+
+{% if has_more %}
+<button id="show-more-btn" class="btn btn-primary">Show more</button>
+{% endif %} {% endblock content%} {% block scripts%}
+
+<script>
+    function showMore() {
+        var numCards = $('#card-deck .card').length;
+        var companyId = $('#company-id').data('companyId');
+      
+        $.ajax({
+          url: '/list-cand/' + companyId + '/',
+          data: { num_cards: numCards },
+          dataType: 'html',
+          success: function(data) {
+            $('#card-deck').append(data);
+            if ($(data).find('.card').length === 0) {
+              $('#show-more-btn').hide();
+            }
+          },
+          error: function(jqXHR, textStatus, errorThrown) {
+            console.log(textStatus, errorThrown);
+          }
+        });
+      }
+      
+  $(document).ready(function () {
+    $("#show-more-btn").click(function () {
+      showMore();
+    });
+
+    // Check for cards on page load
+    if ($("#card-deck .card").length == 0) {
+      $("#show-more-btn").hide();
+    }
+  });
+</script>
+<script>
+  const searchInput = document.getElementById("sidebar-search-input");
+  const searchButton = document.getElementById("sidebar-search-button");
+  const sidebarElements = document.querySelectorAll(
+    ".nav-sidebar .nav-item .nav-link"
+  );
+
+  function search() {
+    const query = searchInput.value.toLowerCase();
+    for (let i = 0; i < sidebarElements.length; i++) {
+      const sidebarElementText = sidebarElements[i].textContent.toLowerCase();
+      if (sidebarElementText.includes(query)) {
+        sidebarElements[i].classList.remove("d-none");
+      } else {
+        sidebarElements[i].classList.add("d-none");
+      }
+    }
+  }
+
+  searchButton.addEventListener("click", search);
+  searchInput.addEventListener("keydown", function (event) {
+    if (event.key === "Enter") {
+      search();
+    }
+  });
+</script>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+{% endblock scripts%}

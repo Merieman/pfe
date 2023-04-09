@@ -1,0 +1,29 @@
+{% load static %}
+
+<div id="card-deck">
+  {% for objc in obj_can %}
+  <div class="col-sm-6 col-6">
+    <div class="card">
+      <div class="card-header">Candidate id: {{ objc.id_candidate }}</div>
+      <div class="card-body">
+        <h6 class="card-title">Email:</h6>
+        <p class="card-text" id="email">{{ objc.email }}</p>
+        <h6 class="card-title">Expertise field:</h6>
+        <p class="card-text" id="expertise_field">{{ objc.expertise_field }}</p>
+        <h6 class="card-title">Education level:</h6>
+        <p class="card-text" id="education_level">{{ objc.education_level }}</p>
+        <h6 class="card-title">Technical skills:</h6>
+        <p class="card-text" id="technical_skills">
+          {{ objc.technical_skills }}
+        </p>
+        <h6 class="card-title">Social skills:</h6>
+        <p class="card-text" id="social_skills">{{ objc.social_skills }}</p>
+        <h6 class="card-title">Language skills:</h6>
+        <p class="card-text" id="language_skills">{{ objc.language_skills }}</p>
+        <h6 class="card-title">Driving license:</h6>
+        <p class="card-text" id="driving_license">{{ objc.driving_license }}</p>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>

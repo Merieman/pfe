@@ -4,15 +4,15 @@
 Log In  
 {% endblock title %}
 {% block content%}
-<form  class="needs-validation" novalidate>
-
+<form  class="needs-validation" method="POST" action="{% url 'save_login_can' %}" novalidate>
+  {% csrf_token %}
   <div class="form-row">
     <div class="col-md-3 mb-3">
       <label for="validationCustomUsername" class="required">Email</label>
       <div class="input-group">
         <div class="input-group-prepend">
         </div>
-        <input type="text" class="form-control" id="validationCustomUsername" placeholder="Email" aria-describedby="inputGroupPrepend" required>
+        <input type="text" name="email" class="form-control" id="validationCustomUsername" placeholder="Email" aria-describedby="inputGroupPrepend" required>
         <div class="invalid-feedback">
           Please provide your email.
         </div>
@@ -22,17 +22,26 @@ Log In
   <div class="form-row">
     <div class="col-md-3 mb-3">
       <label for="validationCustom03"  class="required">Password</label>
-      <input type="password" class="form-control" id="validationCustom03" placeholder="Password" required>
+      <input type="password" name="password" class="form-control" id="validationCustom03" placeholder="Password" required>
       <div class="invalid-feedback">
         Please provide your password.
         </div>
     </div>
   </div>
-  
+  {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
 
-  <a href="{% url '#' %}"><button class="btn btn-primary" type="button" style="margin-bottom: 10px;">Log in</button></a>
-  <p> Don't have an account ? <a href="{% url 'sign_can' %}">Register</a></p>
+
+  <div class="form-group" id="signup-button" >
+    <input class="btn btn-primary" type="submit" value="Log in" style="margin-bottom: 10px; background-color: #007bff;">
+    </div>  
 </form>
+<p> Don't have an account ? <a href="{% url 'sign_can' %}">Register</a></p>
 {% endblock content%}
 
 {% block scripts%}

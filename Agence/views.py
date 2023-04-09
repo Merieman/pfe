@@ -8,81 +8,129 @@ from django.contrib import messages
 
 
 def home(request):
-    companyC=Company.objects.all()
-    candidateC=Candidate.objects.all()
-    offerO=Offer.objects.all()
-    if companyC.count()==0:
-        company_count=0
+    companyC = Company.objects.all()
+    candidateC = Candidate.objects.all()
+    offerO = Offer.objects.all()
+    if companyC.count() == 0:
+        company_count = 0
     else:
-        company_count= companyC.count()
-        
-    if candidateC.count()==0:
-        candidate_count=0
-    else:
-        candidate_count= candidateC.count()
+        company_count = companyC.count()
 
-    if offerO.count()==0:
-        offer_count=0
+    if candidateC.count() == 0:
+        candidate_count = 0
     else:
-        offer_count= offerO.count()
+        candidate_count = candidateC.count()
 
-    context={
-        "company_count":company_count,
-        "candidate_count":candidate_count,
-        "offer_count":offer_count
+    if offerO.count() == 0:
+        offer_count = 0
+    else:
+        offer_count = offerO.count()
+
+    context = {
+        "company_count": company_count,
+        "candidate_count": candidate_count,
+        "offer_count": offer_count
     }
     return render(request, 'index.html', context)
+
 
 def L_c_c(request):
     return render(request, 'com_or_can_L.html')
 
+
 def S_c_c(request):
     return render(request, 'com_or_can_S.html')
+
 
 def about_us(request):
     return render(request, 'about_us.html', )
 
+
 def about_us_can(request, id):
-    obj=get_object_or_404(Candidate, pk=id)
-    context={
-        "obj":obj,
+    obj = get_object_or_404(Candidate, pk=id)
+    context = {
+        "obj": obj,
     }
     return render(request, 'about_us_can.html', context)
+
 
 def about_us_com(request):
     return render(request, 'about_us_com.html')
 
+
 def sign_can(request):
-    candidateC=Candidate.objects.all()
-    
-    context={
-        "candidate":candidateC,
+    candidateC = Candidate.objects.all()
+
+    context = {
+        "candidate": candidateC,
     }
-    return render (request, 'signup_can.html', context)
+    return render(request, 'signup_can.html', context)
+
 
 def sign_com(request):
-    companyC=Company.objects.all()
-    
-    context={
-        "company":companyC,
+    companyC = Company.objects.all()
+
+    context = {
+        "company": companyC,
     }
-    return render (request,'signup_com.html', context)
+    return render(request, 'signup_com.html', context)
+
 
 def log_com(request):
-    companyC=Company.objects.all()
-    
-    context={
-        "company":companyC,
+    companyC = Company.objects.all()
+
+    context = {
+        "company": companyC,
     }
-    return render (request, 'login_com.html', context)
+    return render(request, 'login_com.html', context)
+
 
 def log_can(request):
-    candidateC=Candidate.objects.all()
-    
-    context={
-        "candidate":candidateC,
+    candidateC = Candidate.objects.all()
+
+    context = {
+        "candidate": candidateC,
     }
-    return render (request, 'login_can.html', context)
+    return render(request, 'login_can.html', context)
+
+
+def save_login_can(request):
+
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    # Create a new Candidate instance and save it to the database
+
+    obj = Candidate.objects.filter(email=email).first()
+    if obj:
+        if obj.password == password:
+            redirect_url = reverse('home_can', args=(obj.pk,))
+            return redirect(redirect_url)
+        else:
+            messages.error(request, 'the password is incorrect')
+            return render(request, 'login_can.html', {'email': email, 'password': password})
+    else:
+        messages.error(request, 'the email is incorrect')
+        return render(request, 'login_can.html', {'email': email, 'password': password})
+
+
+def save_login_com(request):
+
+    email = request.POST.get('email')
+    password = request.POST.get('password')
+    # Create a new Candidate instance and save it to the database
+
+    obj = Company.objects.filter(email_address=email).first()
+    if obj:
+        if obj.password == password:
+            redirect_url = reverse('home_com', args=(obj.pk,))
+            return redirect(redirect_url)
+        else:
+            messages.error(request, 'the password is incorrect')
+            return render(request, 'login_com.html', {'email': email, 'password': password})
+    else:
+        messages.error(request, 'the email is incorrect')
+        return render(request, 'login_com.html', {'email': email, 'password': password})
+
 
 def home_a(request):
     num_cards = int(request.GET.get('num_cards', 0))
@@ -94,29 +142,51 @@ def home_a(request):
     else:
         show_button = True
 
-    context={
+    context = {
         "my_objects": all_offer,
-        "has_more": show_button
+        "has_more": show_button,
     }
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return render(request, 'my_cards_a.html', context)
     return render(request, 'accueil.html', context)
 
 
+def list_cand(request, id):
+    obj = get_object_or_404(Company, pk=id)
+
+    num_cards = int(request.GET.get('num_cards', 0))
+    all_can = Candidate.objects.all()[num_cards:num_cards+5]
+
+    has_more = Candidate.objects.count() > num_cards + 5
+    if not has_more:
+        show_button = False
+    else:
+        show_button = True
+
+    context = {
+        "obj_can": all_can,
+        "has_more": show_button,
+        'obj': obj,
+    }
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
+        return render(request, 'list_card.html', context)
+    return render(request, 'list_can.html', context)
+
+
 def home_com(request, obj_id):
     obj = get_object_or_404(Company, pk=obj_id)
     offerO = Offer.objects.filter(company=obj_id)
     count_all = 0
-    if offerO.count()==0:
-        offer_count=0
+    if offerO.count() == 0:
+        offer_count = 0
     else:
-        offer_count= offerO.count()
+        offer_count = offerO.count()
         for objo in offerO:
-            postP = Postulation.objects.filter(offer=objo.id, acceptation='accepted')
+            postP = Postulation.objects.filter(
+                offer=objo.id, acceptation='accepted')
             acc = postP.count()
             count_all += acc
-        
-    
+
     context = {
         'obj': obj,
         'offer_count': offer_count,
@@ -144,21 +214,24 @@ def home_can(request, obj_id):
     context = {
         'obj': obj,
         'count_int': count_int,
-        'count_job':count_job
+        'count_job': count_job
     }
     return render(request, 'accueil_can.html', context)
 
+
 def internship_a(request):
     num_cards_int = int(request.GET.get('num_cards_int', 0))
-    internship_offer = Offer.objects.filter(job_type='internship')[num_cards_int:num_cards_int+5]
+    internship_offer = Offer.objects.filter(job_type='internship')[
+        num_cards_int:num_cards_int+5]
 
-    has_more_int = Offer.objects.filter(job_type='internship').count() > num_cards_int + 5
+    has_more_int = Offer.objects.filter(
+        job_type='internship').count() > num_cards_int + 5
     if not has_more_int:
         show_button_int = False
     else:
         show_button_int = True
 
-    context={
+    context = {
         "my_objects_int": internship_offer,
         "has_more_int": show_button_int
     }
@@ -166,19 +239,22 @@ def internship_a(request):
         return render(request, 'cards_int.html', context)
     return render(request, 'internship.html', context)
 
+
 def internship_can(request, id):
     num_cards_int = int(request.GET.get('num_cards_int', 0))
     obj = get_object_or_404(Candidate, pk=id)
 
-    internship_offer = Offer.objects.filter(job_type='internship')[num_cards_int:num_cards_int+5]
+    internship_offer = Offer.objects.filter(job_type='internship')[
+        num_cards_int:num_cards_int+5]
 
-    has_more_int = Offer.objects.filter(job_type='internship').count() > num_cards_int + 5
+    has_more_int = Offer.objects.filter(
+        job_type='internship').count() > num_cards_int + 5
     if not has_more_int:
         show_button_int = False
     else:
         show_button_int = True
 
-    context={
+    context = {
         "my_objects_int": internship_offer,
         "has_more_int": show_button_int,
         "obj": obj
@@ -187,17 +263,20 @@ def internship_can(request, id):
         return render(request, 'card_intc.html', context)
     return render(request, 'internship_can.html', context)
 
+
 def job_a(request):
     num_cards_job = int(request.GET.get('num_cards_job', 0))
-    job_offer = Offer.objects.filter(job_type='job')[num_cards_job:num_cards_job+5]
+    job_offer = Offer.objects.filter(job_type='job')[
+        num_cards_job:num_cards_job+5]
 
-    has_more_job = Offer.objects.filter(job_type='job').count() > num_cards_job + 5
+    has_more_job = Offer.objects.filter(
+        job_type='job').count() > num_cards_job + 5
     if not has_more_job:
         show_button_job = False
     else:
         show_button_job = True
 
-    context={
+    context = {
         "my_objects_job": job_offer,
         "has_more_job": show_button_job
     }
@@ -205,18 +284,21 @@ def job_a(request):
         return render(request, 'card_job.html', context)
     return render(request, 'job.html', context)
 
+
 def job_can(request, id):
     obj = get_object_or_404(Candidate, pk=id)
     num_cards_job = int(request.GET.get('num_cards_job', 0))
-    job_offer = Offer.objects.filter(job_type='job')[num_cards_job:num_cards_job+5]
+    job_offer = Offer.objects.filter(job_type='job')[
+        num_cards_job:num_cards_job+5]
 
-    has_more_job = Offer.objects.filter(job_type='job').count() > num_cards_job + 5
+    has_more_job = Offer.objects.filter(
+        job_type='job').count() > num_cards_job + 5
     if not has_more_job:
         show_button_job = False
     else:
         show_button_job = True
 
-    context={
+    context = {
         "my_objects_job": job_offer,
         "has_more_job": show_button_job,
         "obj": obj
@@ -229,16 +311,18 @@ def job_can(request, id):
 def app_job(request, id):
     obj = get_object_or_404(Candidate, pk=id)
     num_cards_job = int(request.GET.get('num_cards_job', 0))
-    pst = Postulation.objects.filter(candidate=id)[num_cards_job:num_cards_job+5]
+    pst = Postulation.objects.filter(
+        candidate=id)[num_cards_job:num_cards_job+5]
     off = Offer.objects.filter(job_type='job')
 
-    has_more_job = Postulation.objects.filter(candidate=id).count() > num_cards_job + 5
+    has_more_job = Postulation.objects.filter(
+        candidate=id).count() > num_cards_job + 5
     if not has_more_job:
         show_button_job = False
     else:
         show_button_job = True
 
-    context={
+    context = {
         "pst": pst,
         "off": off,
         "has_more_job": show_button_job,
@@ -248,19 +332,22 @@ def app_job(request, id):
         return render(request, 'app_card_j.html', context)
     return render(request, 'app_job.html', context)
 
+
 def app_int(request, id):
     obj = get_object_or_404(Candidate, pk=id)
     num_cards_job = int(request.GET.get('num_cards_job', 0))
-    pst = Postulation.objects.filter(candidate=id)[num_cards_job:num_cards_job+5]
+    pst = Postulation.objects.filter(
+        candidate=id)[num_cards_job:num_cards_job+5]
     off = Offer.objects.filter(job_type='internship')
 
-    has_more_job = Postulation.objects.filter(candidate=id).count() > num_cards_job + 5
+    has_more_job = Postulation.objects.filter(
+        candidate=id).count() > num_cards_job + 5
     if not has_more_job:
         show_button_job = False
     else:
         show_button_job = True
 
-    context={
+    context = {
         "pst": pst,
         "off": off,
         "has_more_job": show_button_job,
@@ -275,14 +362,16 @@ def more_info(request, id):
     obj = Offer.objects.get(id=id)
     return render(request, 'more_info.html', {'obj': obj})
 
+
 def more_infoc(request, id, idf):
     objf = Offer.objects.get(id=idf)
     obj = Candidate.objects.get(id_candidate=id)
-    context={
+    context = {
         "objf": objf,
         "obj": obj
     }
-    return render(request,'more_infoc.html', context)
+    return render(request, 'more_infoc.html', context)
+
 
 def pers_info(request, id):
     obj = Candidate.objects.get(id_candidate=id)
@@ -292,92 +381,102 @@ def pers_info(request, id):
 def contact(request):
     return render(request, 'contact.html')
 
+
 def contact_can(request, id):
     obj = Candidate.objects.get(id_candidate=id)
-    context={'obj': obj}
-    return render(request, 'contact_can.html',context)
+    context = {'obj': obj}
+    return render(request, 'contact_can.html', context)
+
 
 def contact_com(request):
     return render(request, 'contact_com.html')
 
 
+def get_postulation(request):
+    postulationC = Postulation.objects.all()
+    candidateC = Candidate.objects.all()
+    offerO = Offer.objects.all()
+    context = {
+        "postulation": postulationC,
+        "candidate": candidateC,
+        "offer": offerO
+    }
+    return render(request, 'Agence/postulation.html', context)
 
-def get_postulation (request):
-    postulationC=Postulation.objects.all()
-    candidateC=Candidate.objects.all()
-    offerO=Offer.objects.all()
-    context={
-        "postulation":postulationC,
-        "candidate":candidateC,
-        "offer":offerO
-    }
-    return render (request, 'Agence/postulation.html', context)
-def get_candidate (request):
-    candidateC=Candidate.objects.all()
-    context={
-        "candidate":candidateC,
-    }
-    return render (request, 'Agence/candidate.html', context)
 
-def get_company (request):
-    companyC=Company.objects.all()
-    
-    context={
-        "company":companyC,
+def get_candidate(request):
+    candidateC = Candidate.objects.all()
+    context = {
+        "candidate": candidateC,
     }
-    return render (request, 'Agence/company.html', context)
+    return render(request, 'Agence/candidate.html', context)
 
-def get_offer (request):
-    offerO=Offer.objects.all()
-    context={
-        "offer":offerO
+
+def get_company(request):
+    companyC = Company.objects.all()
+
+    context = {
+        "company": companyC,
     }
-    return render (request, 'Agence/offer.html', context)
+    return render(request, 'Agence/company.html', context)
+
+
+def get_offer(request):
+    offerO = Offer.objects.all()
+    context = {
+        "offer": offerO
+    }
+    return render(request, 'Agence/offer.html', context)
+
 
 def get_offer_c(request, id):
-    offerO=Offer.objects.filter(company=id)
-    context={
-        "offer":offerO,
-        'id': Offer.company_id, 
+    offerO = Offer.objects.filter(company=id)
+    context = {
+        "offer": offerO,
+        'id': Offer.company_id,
     }
-    return render (request, 'my_offers.html', context)
+    return render(request, 'my_offers.html', context)
 
-def get_add_candidate (request):
-    candidateC=Candidate.objects.all()
-    context={
-        "candidate":candidateC
+
+def get_add_candidate(request):
+    candidateC = Candidate.objects.all()
+    context = {
+        "candidate": candidateC
     }
-    return render (request, 'Agence/add_candidate.html', context)
+    return render(request, 'Agence/add_candidate.html', context)
+
 
 def get_add_company(request):
-    companyC=Company.objects.all()
-    context={
-        "company":companyC
+    companyC = Company.objects.all()
+    context = {
+        "company": companyC
     }
-    return render (request, 'Agence/add_company.html', context)
+    return render(request, 'Agence/add_company.html', context)
 
-def save_com(request ):
-    company_name=request.POST.get('company_name')
+
+def save_com(request):
+    company_name = request.POST.get('company_name')
     address = request.POST.get('address')
-    email= request.POST.get('email')
-    password=request.POST.get('password')
+    email = request.POST.get('email')
+    password = request.POST.get('password')
     if request.POST.get('creation_date') == "":
-        creation_date=None
+        creation_date = None
     else:
-        creation_date=request.POST.get('creation_date')
-    business_sector=request.POST.get('business_sector')
-    headquarters=request.POST.get('headquarters')
-    phone_number=request.POST.get('phone_number')
-    website=request.POST.get('website')
-    linkedin=request.POST.get('linkedin')
+        creation_date = request.POST.get('creation_date')
+    business_sector = request.POST.get('business_sector')
+    headquarters = request.POST.get('headquarters')
+    phone_number = request.POST.get('phone_number')
+    website = request.POST.get('website')
+    linkedin = request.POST.get('linkedin')
     if request.POST.get('size') == "":
-        size=0
+        size = 0
     else:
-        size=request.POST.get('size')
+        size = request.POST.get('size')
     # Check if the email is already used by another candidate
-    if Candidate.objects.filter(email=email).exists():
-        messages.error(request, 'This email is already registered. Please use a different email.')
-        return redirect('signup_can')
+    if Company.objects.filter(email_address=email).exists():
+        messages.error(
+            request, 'This email is already registered. Please use a different email.')
+        return redirect('add_company')
     # Create a new Company instance and save it to the database
     Company.objects.create(
         company_name=company_name,
@@ -394,24 +493,29 @@ def save_com(request ):
     )
     return redirect('company')
 
-def save_signup_com(request , email):
-    company_name=request.POST.get('company_name')
+
+def save_signup_com(request, email):
+    company_name = request.POST.get('company_name')
     address = request.POST.get('address')
-    email= request.POST.get('email')
-    password=request.POST.get('password')
+    email = request.POST.get('email')
+    password = request.POST.get('password')
     if request.POST.get('creation_date') == "":
-        creation_date=None
+        creation_date = None
     else:
-        creation_date=request.POST.get('creation_date')
-    business_sector=request.POST.get('business_sector')
-    headquarters=request.POST.get('headquarters')
-    phone_number=request.POST.get('phone_number')
-    website=request.POST.get('website')
-    linkedin=request.POST.get('linkedin')
+        creation_date = request.POST.get('creation_date')
+    business_sector = request.POST.get('business_sector')
+    headquarters = request.POST.get('headquarters')
+    phone_number = request.POST.get('phone_number')
+    website = request.POST.get('website')
+    linkedin = request.POST.get('linkedin')
     if request.POST.get('size') == "":
-        size=0
+        size = 0
     else:
-        size=request.POST.get('size')
+        size = request.POST.get('size')
+    if Company.objects.filter(email_address=email).exists():
+        messages.error(
+            request, 'This email is already registered. Please use a different email.')
+        return redirect('sign_com')
     # Create a new Company instance and save it to the database
     Company.objects.create(
         company_name=company_name,
@@ -429,6 +533,7 @@ def save_signup_com(request , email):
     obj = Company.objects.get(email_address=email)
     return redirect(reverse('home_com', args=[obj.pk]))
 
+
 def save_signup_can(request):
     first_name = request.POST.get('first_name')
     last_name = request.POST.get('last_name')
@@ -436,35 +541,42 @@ def save_signup_can(request):
     gender = request.POST.get('gender')
     phone_number = request.POST.get('phone_number')
     email = request.POST.get('email')
-    password=request.POST.get('password')
-    # Create a new Candidate instance and save it to the database
-    Candidate.objects.create(
-        first_name=first_name,
-        last_name=last_name,
-        birth_date=birth_date,
-        gender=gender,
-        phone_number=phone_number,
-        email=email,
-        password=password,
-    )
-    id=Candidate.objects.filter(email=email).first()
-    # build the URL to redirect to using the candidate_id
-    redirect_url = reverse('home_can', args=(id.pk,))
-    # redirect the user to the URL
-    return redirect(redirect_url)
+    password = request.POST.get('password')
+    id = Candidate.objects.filter(email=email)
+    if id:
+        messages.error(
+            request, 'This email is already registered. Please use a different email.')
+        return redirect('sign_can')
+    else:
+        Candidate.objects.create(
+            first_name=first_name,
+            last_name=last_name,
+            birth_date=birth_date,
+            gender=gender,
+            phone_number=phone_number,
+            email=email,
+            password=password,
+        )
 
-def perso_info(request,id):
+    # build the URL to redirect to using the candidate_id
+        redirect_url = reverse('home_can', args=(id.pk,))
+    # redirect the user to the URL
+        return redirect(redirect_url)
+
+
+def perso_info(request, id):
     obj = Candidate.objects.get(id_candidate=id)
-    context={
+    context = {
         "obj": obj
     }
     return render(request, 'perso_info.html', context)
+
 
 def perso_info_save(request, id):
     first_name = request.POST.get('first_name')
     last_name = request.POST.get('last_name')
     phone_number = request.POST.get('phone_number')
-    password=request.POST.get('password')
+    password = request.POST.get('password')
     # Create a new Candidate instance and save it to the database
     Candidate.objects.filter(pk=id).update(
         first_name=first_name,
@@ -477,24 +589,26 @@ def perso_info_save(request, id):
     # redirect the user to the URL
     return redirect(redirect_url)
 
-def my_resume(request,id):
+
+def my_resume(request, id):
     obj = Candidate.objects.get(id_candidate=id)
-    context={
+    context = {
         "obj": obj
     }
     return render(request, 'my_resume.html', context)
+
 
 def my_resume_save(request, id):
     nationality = request.POST.get('nationality')
     address = request.POST.get('address')
     city = request.POST.get('city')
     education_level = request.POST.get('education_level')
-    driving_license=request.POST.get('driving_license')
-    linkedin=request.POST.get('linkedin')
-    technical_skills=request.POST.get('technical_skills')
-    language_skills=request.POST.get('language_skills')
-    social_skills=request.POST.get('social_skills')
-    expertise_field=request.POST.get('expertise_field')
+    driving_license = request.POST.get('driving_license')
+    linkedin = request.POST.get('linkedin')
+    technical_skills = request.POST.get('technical_skills')
+    language_skills = request.POST.get('language_skills')
+    social_skills = request.POST.get('social_skills')
+    expertise_field = request.POST.get('expertise_field')
     # Create a new Candidate instance and save it to the database
     Candidate.objects.filter(pk=id).update(
         nationality=nationality,
@@ -506,7 +620,7 @@ def my_resume_save(request, id):
         language_skills=language_skills,
         social_skills=social_skills,
         expertise_field=expertise_field,
-        education_level=education_level,    )
+        education_level=education_level,)
     # build the URL to redirect to using the candidate_id
     redirect_url = reverse('my_resume', args=(id,))
     # redirect the user to the URL
@@ -514,19 +628,20 @@ def my_resume_save(request, id):
 
 
 def apply(request, id, idf):
-    candidate=id
-    offer=idf
-    application_date=timezone.localdate()
-    
+    candidate = id
+    offer = idf
+    application_date = timezone.localdate()
+
     Postulation.objects.create(
         candidate=candidate,
         offer=offer,
         application_date=application_date,
     )
     # build the URL to redirect to using the candidate_id
-    redirect_url = reverse('more_infoc', args=(id,idf,))
+    redirect_url = reverse('more_infoc', args=(id, idf,))
     # redirect the user to the URL
     return redirect(redirect_url)
+
 
 def save(request):
     first_name = request.POST.get('first_name')
@@ -539,13 +654,13 @@ def save(request):
     phone_number = request.POST.get('phone_number')
     email = request.POST.get('email')
     education_level = request.POST.get('education_level')
-    driving_license=request.POST.get('driving_license')
-    linkedin=request.POST.get('linkedin')
-    technical_skills=request.POST.get('technical_skills')
-    language_skills=request.POST.get('language_skills')
-    social_skills=request.POST.get('social_skills')
-    expertise_field=request.POST.get('expertise_field')
-    password=request.POST.get('password')
+    driving_license = request.POST.get('driving_license')
+    linkedin = request.POST.get('linkedin')
+    technical_skills = request.POST.get('technical_skills')
+    language_skills = request.POST.get('language_skills')
+    social_skills = request.POST.get('social_skills')
+    expertise_field = request.POST.get('expertise_field')
+    password = request.POST.get('password')
     # Create a new Candidate instance and save it to the database
     Candidate.objects.create(
         first_name=first_name,
@@ -569,22 +684,24 @@ def save(request):
 
     # Redirect to the candidate page
     return redirect('candidate')
- 
 
 
 class candidateJson(BaseDatatableView):
     model = Candidate
-    columns = ['id_candidate', 'driving_license', 'city', 'technical_skills', 'language_skills' , 'social_skills', 'education_level', 'expertise_field'] 
-    order_columns = ['id_candidate', 'driving_license', 'city', 'technical_skills', 'language_skills' , 'social_skills', 'education_level', 'expertise_field'] 
- 
+    columns = ['id_candidate', 'driving_license', 'city', 'technical_skills',
+               'language_skills', 'social_skills', 'education_level', 'expertise_field']
+    order_columns = ['id_candidate', 'driving_license', 'city', 'technical_skills',
+                     'language_skills', 'social_skills', 'education_level', 'expertise_field']
+
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
     max_display_length = 500
     count = 0
+
     def render_column(self, row, column):
         # We want to render user as a custom column
-   
-            return super(candidateJson, self).render_column(row, column)
+
+        return super(candidateJson, self).render_column(row, column)
 
     def filter_queryset(self, qs):
         # use parameters passed in GET request to filter queryset
@@ -601,15 +718,18 @@ class candidateJson(BaseDatatableView):
             customer_parts = filter_customer.split(' ')
             qs_params = None
             for part in customer_parts:
-                q = Q(customer_firstname__istartswith=part) | Q(customer_lastname__istartswith=part)
+                q = Q(customer_firstname__istartswith=part) | Q(
+                    customer_lastname__istartswith=part)
                 qs_params = qs_params | q if qs_params else q
             qs = qs.filter(qs_params)
         return qs
-    
+
+
 class companyJson(BaseDatatableView):
     model = Company
-    columns = ['company_id', 'address', 'headquarters', 'business_sector'] 
-    order_columns = ['company_id', 'address', 'headquarters', 'business_sector'] 
+    columns = ['company_id', 'address', 'headquarters', 'business_sector']
+    order_columns = ['company_id', 'address',
+                     'headquarters', 'business_sector']
 
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
@@ -634,15 +754,19 @@ class companyJson(BaseDatatableView):
             customer_parts = filter_customer.split(' ')
             qs_params = None
             for part in customer_parts:
-                q = Q(customer_firstname__istartswith=part) | Q(customer_lastname__istartswith=part)
+                q = Q(customer_firstname__istartswith=part) | Q(
+                    customer_lastname__istartswith=part)
                 qs_params = qs_params | q if qs_params else q
             qs = qs.filter(qs_params)
         return qs
+
 
 class offerJson_c(BaseDatatableView):
     model = Offer
-    columns = ['id', 'title','id','job_type', 'date_cloture','description', 'skills','experience', 'education_level','number_of_positions', 'languages' ] 
-    order_columns = ['id', 'title','id','job_type', 'date_cloture','description', 'skills','experience', 'education_level','number_of_positions', 'languages' ]  
+    columns = ['id', 'title', 'id', 'job_type', 'date_cloture', 'description',
+               'skills', 'experience', 'education_level', 'number_of_positions', 'languages']
+    order_columns = ['id', 'title', 'id', 'job_type', 'date_cloture', 'description',
+                     'skills', 'experience', 'education_level', 'number_of_positions', 'languages']
 
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
@@ -667,15 +791,19 @@ class offerJson_c(BaseDatatableView):
             customer_parts = filter_customer.split(' ')
             qs_params = None
             for part in customer_parts:
-                q = Q(customer_firstname__istartswith=part) | Q(customer_lastname__istartswith=part)
+                q = Q(customer_firstname__istartswith=part) | Q(
+                    customer_lastname__istartswith=part)
                 qs_params = qs_params | q if qs_params else q
             qs = qs.filter(qs_params)
         return qs
+
 
 class offerJson(BaseDatatableView):
     model = Offer
-    columns = ['id', 'title','id','job_type', 'date_cloture','description', 'skills','experience', 'education_level','number_of_positions', 'languages' ] 
-    order_columns = ['id', 'title','id','job_type', 'date_cloture','description', 'skills','experience', 'education_level','number_of_positions', 'languages' ]  
+    columns = ['id', 'title', 'id', 'job_type', 'date_cloture', 'description',
+               'skills', 'experience', 'education_level', 'number_of_positions', 'languages']
+    order_columns = ['id', 'title', 'id', 'job_type', 'date_cloture', 'description',
+                     'skills', 'experience', 'education_level', 'number_of_positions', 'languages']
 
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
@@ -700,18 +828,23 @@ class offerJson(BaseDatatableView):
             customer_parts = filter_customer.split(' ')
             qs_params = None
             for part in customer_parts:
-                q = Q(customer_firstname__istartswith=part) | Q(customer_lastname__istartswith=part)
+                q = Q(customer_firstname__istartswith=part) | Q(
+                    customer_lastname__istartswith=part)
                 qs_params = qs_params | q if qs_params else q
             qs = qs.filter(qs_params)
         return qs
+
+
 class PostulationJson(BaseDatatableView):
     model = Postulation
     columns = ['id', 'candidate', 'offer', 'application_date', 'acceptation']
-    order_columns = ['id', 'candidate', 'offer', 'application_date', 'acceptation']
+    order_columns = ['id', 'candidate', 'offer',
+                     'application_date', 'acceptation']
 
     # set max limit of records returned, this is used to protect our site if someone tries to attack our site
     # and make it return huge amount of data
     max_display_length = 500
+
     def get(self, request, *args, **kwargs):
         # Override get method to return JSON response instead of HTML
         draw = int(request.GET.get('draw', 0))
@@ -737,17 +870,16 @@ class PostulationJson(BaseDatatableView):
 
         queryset = queryset.order_by(order_by)
         queryset = queryset[start:start+length]
-
-        print(queryset.values())
+        
         data = [
-            [
-                row.candidate.id_candidate,
-                row.candidate.expertise_field,
-                row.offer.id,
-                row.offer.field,
-                row.acceptation
-            ]
-            for row in queryset
+        [
+        row.candidate.id_candidate,
+        row.candidate.expertise_field,
+        row.offer.id,
+        row.offer.field,
+        f'<button onclick="acceptPostulation({{row.id}}, true)">Accept</button><button onclick="rejectPostulation({{row.id}}, false)">Reject</button>'
+        ]
+        for row in queryset
         ]
 
         return JsonResponse({
@@ -756,13 +888,23 @@ class PostulationJson(BaseDatatableView):
             'recordsFiltered': records_filtered,
             'data': data,
         })
+    
+
+    def update_acceptation(request, postulation_id, acceptation):
+        postulation = get_object_or_404(Postulation, id=postulation_id)
+        postulation.acceptation = acceptation
+        postulation.save()
+        return JsonResponse({'success': True})
+
+
     def filter_queryset(self, qs):
         # use parameters passed in GET request to filter queryset
 
         # simple example:
         search = self.request.GET.get('search[value]', None)
         if search:
-            qs = qs.filter(Q(candidate__name__istartswith=search) | Q(offer__name__istartswith=search))
+            qs = qs.filter(Q(candidate__name__istartswith=search)
+                           | Q(offer__name__istartswith=search))
 
         # more advanced example using extra parameters
         filter_candidate = self.request.GET.get('candidate', None)
@@ -786,5 +928,3 @@ class PostulationJson(BaseDatatableView):
             return row.offer.name
         else:
             return super(PostulationJson, self).render_column(row, column)
-
-    

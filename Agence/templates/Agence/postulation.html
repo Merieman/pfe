@@ -30,6 +30,40 @@ Postulation
         // ...
     });
 </script>
+<script>
+  
+    function acceptPostulation(postulationId, acceptation) {
+        $.ajax({
+          type: 'POST',
+          url: '/update_acceptation/' + postulationId + '/' + acceptation + '/',
+          success: function(response) {
+            console.log('Postulation accepted');
+            // reload the table to show the updated data
+            $('#postulation-table').DataTable().ajax.reload();
+          },
+          error: function(xhr, status, error) {
+            console.error('Error accepting postulation:', error);
+          }
+        });
+      }
+      
+      function rejectPostulation(postulationId, acceptation) {
+        $.ajax({
+          type: 'POST',
+          url: '/update_acceptation/' + postulationId + '/' + acceptation + '/',
+          success: function(response) {
+            console.log('Postulation rejected');
+            // reload the table to show the updated data
+            $('#postulation-table').DataTable().ajax.reload();
+          },
+          error: function(xhr, status, error) {
+            console.error('Error rejecting postulation:', error);
+          }
+        });
+      }
+      
+</script>
+
 {% endblock scripts%}
 
 

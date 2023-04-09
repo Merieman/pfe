@@ -16,8 +16,8 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                   <div class="navbar-nav">
-                    <a class="nav-item nav-link " href="#">Home </a>
-                    <a class="nav-item nav-link" href="{%url 'job' %}">Candidate</a>
+                    <a class="nav-item nav-link " href="{%url 'home_com' obj.company_id %}">Home </a>
+                    <a class="nav-item nav-link" href="{%url 'list_can' obj.company_id  %}">Candidate</a>
                     <a class="nav-item nav-link " href="{%url 'home_a' %}">Log out</a>
                   </div>
                 </div>

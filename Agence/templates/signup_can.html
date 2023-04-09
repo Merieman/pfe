@@ -72,10 +72,17 @@ Sign Up
       </div>
     </div>
   </div>
+  {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
  <div class="form-group" id="signup-button" >
   <input class="btn btn-primary" type="submit" value="Sign up" style="margin-bottom: 10px; background-color: #007bff;">
   </div>
-    
+  
 
   
 </form>
@@ -96,18 +103,8 @@ Sign Up
           if (form.checkValidity() === false) {
             event.preventDefault();
             event.stopPropagation();
-          } else {
-            // check if email is maryam@aneba.com
-            var emailInput = form.querySelector('#email');
-            if (emailInput.value === 'mlk') {
-              event.preventDefault();
-              event.stopPropagation();
-              form.querySelector('.special-error').style.display = 'block';
-              emailInput.classList.add('is-invalid');
-            } else {
-              form.classList.add('was-validated');
-            }
-          }
+          }  
+          form.classList.add('was-validated');
         }, false);
       });
     }, false);
