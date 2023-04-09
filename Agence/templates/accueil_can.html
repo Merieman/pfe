@@ -1,8 +1,38 @@
 {% extends "base_can.html" %}
 {% block title%}
-Control Board  
+{{obj.first_name}} {{obj.last_name}}
 {% endblock title %}
 {% block content%}
+<div class="row">
+    <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-success">
+          <div class="inner">
+            <h3>{{count_job}}</h3>
+  
+            <p>Applied job offers</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-briefcase"></i>
+          </div>
+          <a href="{% url 'app_job' obj.id_candidate %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+      <div class="col-lg-4 col-6">
+        <!-- small box -->
+        <div class="small-box bg-info">
+          <div class="inner">
+            <h3>{{count_int}}</h3>
+  
+            <p>Applied internship offers</p>
+          </div>
+          <div class="icon">
+            <i class="fa fa-briefcase"></i>
+          </div>
+          <a href="{% url 'app_int' obj.id_candidate %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+        </div>
+      </div>
+</div>
 
 
 {% endblock content%}

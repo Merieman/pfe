@@ -4,8 +4,8 @@
 
 
 <div id="card-deck">
-    {% for objf in my_objects_int %}
-        {% if objf.job_type == "internship" %}
+    {% for objf in my_objects_job %}
+        {% if objf.job_type == "job" %}
             <div class="col-sm-6 col-6">
                 <div class="card">
                     <div class="card-header">{{ objf.title }}</div>

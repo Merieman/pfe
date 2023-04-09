@@ -32,13 +32,13 @@
                   </a>
                   <ul class="nav nav-treeview">
                     <li class="nav-item">
-                      <a href="{%url 'job_can' %}" class="nav-link">
+                      <a href="{%url 'job_can'  id %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Job</p>
                       </a>
                     </li>
                     <li class="nav-item">
-                      <a href="{% url 'internship_can' %}" class="nav-link">
+                      <a href="{% url 'internship_can'  id %}" class="nav-link">
                         <i class="far fa-circle nav-icon"></i>
                         <p>Internship</p>
                       </a>
@@ -55,13 +55,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
-                        <a href="{%url 'job' %}" class="nav-link">
+                        <a href="{%url 'app_job' id %}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Applied job offers</p>
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a href="{% url 'internship' %}" class="nav-link">
+                        <a href="{% url 'app_int' id %}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Applied internship offers</p>
                         </a>
@@ -78,13 +78,13 @@
                     </a>
                     <ul class="nav nav-treeview">
                       <li class="nav-item">
-                        <a href="{%url 'job' %}" class="nav-link">
+                        <a href="{%url 'perso_info' id %}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>Personal information</p>
                         </a>
                       </li>
                       <li class="nav-item">
-                        <a href="{% url 'internship' %}" class="nav-link">
+                        <a href="{% url 'my_resume' id %}" class="nav-link">
                           <i class="far fa-circle nav-icon"></i>
                           <p>My resume</p>
                         </a>
@@ -92,7 +92,7 @@
                     </ul>
                   </li>
                 <li class="nav-item">
-                  <a href="{% url 'contact_can' %}" class="nav-link">
+                  <a href="{% url 'contact_can'  id %}" class="nav-link">
                     <i class="nav-icon fas fa-comments"></i>
                     <p>
                       Contact
@@ -100,7 +100,7 @@
                   </a>
                 </li>
                 <li class="nav-item">
-                    <a href="{% url 'about_can' %}" class="nav-link">
+                    <a href="{% url 'about_can'  id%}" class="nav-link">
                       <i class="nav-icon fas fa-info-circle"></i>
                       <p>
                         About us

@@ -16,9 +16,9 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                   <div class="navbar-nav">
-                    <a class="nav-item nav-link " href="{%url 'home_can' %}">Home </a>
-                    <a class="nav-item nav-link" href="{%url 'job_can' %}">Job</a>
-                    <a class="nav-item nav-link" href="{%url 'internship_can' %}">Internship</a>
+                    <a class="nav-item nav-link " href="{%url 'home_can' obj.id_candidate %}">Home </a>
+                    <a class="nav-item nav-link" href="{%url 'job_can' obj.id_candidate %}">Job</a>
+                    <a class="nav-item nav-link" href="{%url 'internship_can' obj.id_candidate %}">Internship</a>
                     <a class="nav-item nav-link " href="{%url 'home_a' %}">Log out</a>
                   </div>
                 </div>
@@ -34,7 +34,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
           <!-- Brand Logo -->
-          <a href="{% url 'home_a' %}" class="brand-link">
+          <a href="{% url 'home_can' obj.id_candidate %}" class="brand-link">
             <img src="{% static 'dist/img/logor.png'%}" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
             <span class="brand-text font-weight-light">RecruitMe</span>
           </a>
@@ -44,7 +44,7 @@
 
 
 
-          {% include "sidebar_can.html" %}
+          {% include "sidebar_can.html" with id=obj.id_candidate %}
         </aside>
       
         <!-- Content Wrapper. Contains page content -->
@@ -80,7 +80,7 @@
         </div>
         <!-- /.content-wrapper -->
         <footer class="main-footer">
-          <strong>Copyright &copy; 2023-2023 <a href="#">recruitMe</a>.</strong>
+          <strong>Copyright &copy; 2023-2023 <a href="{% url 'home_can' obj.id_candidate %}">recruitMe</a>.</strong>
           All rights reserved.
           <div class="float-right d-none d-sm-inline-block">
             <b>Version</b> 1.0.0

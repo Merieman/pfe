@@ -1,98 +1,127 @@
 {% extends 'base_can.html' %}
 {% load static %}
 {% block title%}
-{{ obj.title }}
+{{  objf.title }}
 {% endblock title %}
 {% block content %}
 <div class="container">
+    <form action="{% url 'apply' obj.id_candidate objf.title%}" method="POST" class="needs-validation" novalidate>
+        {% csrf_token %}
+        <div class="form-group text-right" id="signup-button">
+            <input class="btn btn-primary" type="submit" value="Apply" style="margin-bottom: 10px; background-color: #007bff;">
+          </div>
+          
     <table class="table table-bordered">
         <tbody>
-            {% if obj.job_type %}
+            {% if  objf.job_type %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-briefcase"></i> Job Type:</td>
-                    <td class="col-md-10">{{ obj.job_type }}</td>
+                    <td class="col-md-10">{{  objf.job_type }}</td>
                 </tr>
             {% endif %}
-            {% if obj.field %}
+            {% if  objf.field %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-industry"></i> Field:</td>
-                    <td class="col-md-10">{{ obj.field }}</td>
+                    <td class="col-md-10">{{  objf.field }}</td>
                 </tr>
             {% endif %}
-            {% if obj.description %}
+            {% if  objf.description %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-align-left"></i> Description:</td>
-                    <td class="col-md-10">{{ obj.description }}</td>
+                    <td class="col-md-10">{{  objf.description }}</td>
                 </tr>
             {% endif %}
-            {% if obj.skills %}
+            {% if  objf.skills %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-tasks"></i> Skills:</td>
-                    <td class="col-md-10">{{ obj.skills }}</td>
+                    <td class="col-md-10">{{  objf.skills }}</td>
                 </tr>
             {% endif %}
-            {% if obj.education_level %}
+            {% if  objf.education_level %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-graduation-cap"></i> Education Level:</td>
-                    <td class="col-md-10">{{ obj.education_level }}</td>
+                    <td class="col-md-10">{{  objf.education_level }}</td>
                 </tr>
             {% endif %}
-            {% if obj.workplace %}
+            {% if  objf.workplace %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-map-marker-alt"></i> Workplace:</td>
-                    <td class="col-md-10">{{ obj.workplace }}</td>
+                    <td class="col-md-10">{{  objf.workplace }}</td>
                 </tr>
             {% endif %}
-            {% if obj.contract_type %}
+            {% if  objf.contract_type %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-file-contract"></i> Contract Type:</td>
-                    <td class="col-md-10">{{ obj.contract_type }}</td>
+                    <td class="col-md-10">{{  objf.contract_type }}</td>
                 </tr>
             {% endif %}
-            {% if obj.contract_duration %}
+            {% if  objf.contract_duration %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-calendar-alt"></i> Contract Duration:</td>
-                    <td class="col-md-10">{{ obj.contract_duration }}</td>
+                    <td class="col-md-10">{{  objf.contract_duration }}</td>
                 </tr>
             {% endif %}
-            {% if obj.salary %}
+            {% if  objf.salary %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-money-bill-wave"></i> Salary:</td>
-                    <td class="col-md-10">{{ obj.salary }}</td>
+                    <td class="col-md-10">{{  objf.salary }}</td>
                 </tr>
             {% endif %}
-            {% if obj.start_date %}
+            {% if  objf.start_date %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-calendar-day"></i> Start Date:</td>
-                    <td class="col-md-10">{{ obj.start_date }}</td>
+                    <td class="col-md-10">{{  objf.start_date }}</td>
                 </tr>
             {% endif %}
-            {% if obj.benefits %}
+            {% if  objf.benefits %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-gift"></i> Benefits:</td>
-                    <td class="col-md-10">{{ obj.benefits }}</td>
+                    <td class="col-md-10">{{  objf.benefits }}</td>
                 </tr>
             {% endif %}
-            {% if obj.number_of_positions %}
+            {% if  objf.number_of_positions %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-users"></i> Number of Positions:</td>
-                    <td class="col-md-10">{{ obj.number_of_positions }}</td>
+                    <td class="col-md-10">{{  objf.number_of_positions }}</td>
                 </tr>
             {% endif %}
-            {% if obj.languages %}
+            {% if  objf.languages %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-language"></i> Languages:</td>
-                    <td class="col-md-10">{{ obj.languages }}</td>
+                    <td class="col-md-10">{{  objf.languages }}</td>
                 </tr>
             {% endif %}
-            {% if obj.deadline %}
+            {% if  objf.deadline %}
                 <tr>
                     <td class="col-md-2"><i class="fas fa-hourglass-end"></i> Deadline:</td>
-                    <td class="col-md-10">{{ obj.deadline }}</td>
+                    <td class="col-md-10">{{  objf.deadline }}</td>
                 </tr>
             {% endif %}
         </tbody>
     </table>
+</form>
 </div>
 
 {% endblock %}
+{% block scripts%}
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+      </script>
+    {% endblock scripts%}

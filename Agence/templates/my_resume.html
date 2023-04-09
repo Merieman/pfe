@@ -1,0 +1,123 @@
+{% extends "base_can.html" %}
+{% block title%}
+My resume
+{% endblock title %}
+{% block content%}
+<div class="content">
+    <div id="content" class="colM">
+        <div id="content-main">
+            <form method="post" action="{% url 'my_resume_save' obj.id_candidate %}" id="candidate_form" class="needs-validation" novalidate>
+                {% csrf_token %}
+                <div>
+                    <fieldset class="module aligned ">
+                        <div class="form-row field-nationality">    
+                            <div>
+                                <label  for="id_nationality">Nationality:</label>                   
+                                <input type="text" value="{{obj.nationality}}" name="nationality" class="vTextField" maxlength="50"  id="id_nationality">    
+                                
+                            </div>
+                        </div>
+                        <div class="form-row field-address">
+                            <div>
+                                <label  for="id_address">Address:</label>                    
+                                <textarea name="address" value="{{obj.address}}" cols="40" rows="10" class="vLargeTextField" id="id_address"></textarea>     
+                            </div>       
+                        </div>
+                        <div class="form-row field-driving_license">
+                            <div>
+                                <label for="id_driving_license">Driving license:</label>
+                        
+                                <input type="text" name="driving_license" value="{{obj.driving_license}}" class="vTextField" maxlength="100" id="id_driving_license">
+                            </div>        
+                        </div>
+                        <div class="form-row field-city">
+                            <div>
+                                <label  for="id_city">City:</label>
+                                <input type="text" name="city" class="vTextField" value="{{obj.city}}" maxlength="50" id="id_city">   
+                            </div>
+                        </div>
+    
+                        <div class="form-row field-linkedin">
+                            <div>
+                                <label for="id_linkedin">Linkedin:</label>
+                                <input type="url" name="linkedin" class="vURLField" value="{{obj.linkedin}}" maxlength="200" id="id_linkedin"> 
+                            </div>
+                        </div>
+                        <div class="form-row field-technical_skills">
+                            <div>
+                                <label for="id_technical_skills">Technical skills:</label>
+                        
+                                <textarea name="technical_skills" value="{{obj.technical_skills}}" cols="40" rows="10" class="vLargeTextField" id="id_technical_skills"></textarea>                                                  
+                            </div>        
+                        </div>
+                        <div class="form-row field-language_skills">
+                            <div>
+                                <label for="id_language_skills">Language skills:</label>
+                        
+                                <textarea name="language_skills" value="{{obj.language_skills}}" cols="40" rows="10" class="vLargeTextField" id="id_language_skills"></textarea>  
+                            </div>
+                        </div>
+                        <div class="form-row field-social_skills">
+                            <div>
+                                <label for="id_social_skills">Social skills:</label>
+                                <textarea name="social_skills" value="{{obj.social_skills}}" cols="40" rows="10" class="vLargeTextField" id="id_social_skills"></textarea>
+                            </div>
+                        </div>
+                        <div class="form-row field-education_level">
+                            <div>
+                                <label  for="id_education_level">Education level:</label>
+                        
+                                <input type="text" name="education_level" value="{{obj.education_level}}" class="vTextField" maxlength="50"   id="id_education_level">
+                            </div>
+                        </div>
+                        <div class="form-row field-expertise_field">
+                            <div>
+                                <label  for="id_expertise_field">Expertise field:</label>
+                        
+                                <input type="text" name="expertise_field" value="{{obj.expertise_field}}" class="vTextField" maxlength="50"  id="id_expertise_field">                
+                            </div>       
+                        </div>
+                    </fieldset>
+                    <div class="submit-row">
+    
+                        <input type="submit" value="Save" class="default" name="_save">
+                        
+                    </div>
+                    
+    
+                </div>  
+            </form>
+        </div>  
+    </div>
+
+</div>
+    {% endblock content%}
+    {% block scripts%}
+    <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function() {
+        'use strict';
+        window.addEventListener('load', function() {
+          // Fetch all the forms we want to apply custom Bootstrap validation styles to
+          var forms = document.getElementsByClassName('needs-validation');
+          // Loop over them and prevent submission
+          var validation = Array.prototype.filter.call(forms, function(form) {
+            form.addEventListener('submit', function(event) {
+              if (form.checkValidity() === false) {
+                event.preventDefault();
+                event.stopPropagation();
+              }
+              form.classList.add('was-validated');
+            }, false);
+          });
+        }, false);
+      })();
+      </script>
+    {% endblock scripts%}
+    
+    
+    
+    
+    
+    
+    

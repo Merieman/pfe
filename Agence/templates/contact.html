@@ -1,89 +1,9 @@
-{% extends 'base_can.html' %}
+{% extends 'base_a.html' %}
 {% load static %}
-
 {% block title%}
-  {{ obj.title }}
+Contact
 {% endblock title %}
-
-{% block content %}
-<div class="container">
-  <form>
-    {% if obj.job_type %}
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label"><i class="fas fa-briefcase"></i> Job Type:</label>
-      <div class="col-md-10">
-        <input type="text" class="form-control" value="{{ obj.job_type }}" readonly>
-      </div>
-    </div>
-    {% endif %}
-
-    {% if obj.field %}
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label"><i class="fas fa-industry"></i> Field:</label>
-      <div class="col-md-10">
-        <input type="text" class="form-control" value="{{ obj.field }}" readonly>
-      </div>
-    </div>
-    {% endif %}
-
-    {% if obj.description %}
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label"><i class="fas fa-align-left"></i> Description:</label>
-      <div class="col-md-10">
-        <input type="text" class="form-control" value="{{ obj.description }}" readonly>
-      </div>
-    </div>
-    {% endif %}
-
-    {% if obj.skills %}
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label"><i class="fas fa-tasks"></i> Skills:</label>
-      <div class="col-md-10">
-        <input type="text" class="form-control" value="{{ obj.skills }}" readonly>
-      </div>
-    </div>
-    {% endif %}
-
-    
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label"><i class="fas fa-graduation-cap"></i> Education Level:</label>
-      <div class="col-md-10">
-        <input type="text" class="form-control" value="{{ obj.education_level }}" readonly>
-      </div>
-    </div>
-
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label"><i class="fas fa-map-marker-alt"></i> Workplace:</label>
-      <div class="col-md-10">
-        <input type="text" class="form-control" value="{{ obj.workplace }}" readonly>
-      </div>
-    </div>
-
-    {% if obj.contract_type %}
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label"><i class="fas fa-file-contract"></i> Contract Type:</label>
-      <div class="col-md-10">
-        <input type="text" class="form-control" value="{{ obj.contract_type }}" readonly>
-      </div>
-    </div>
-    {% endif %}
-
-    {% if obj.contract_duration %}
-    <div class="form-group row">
-      <label class="col-md-2 col-form-label"><i class="fas fa-calendar-alt"></i> Contract Duration:</label>
-      <div class="col-md-10">
-        <input type="text" class="form-control" value="{{ obj.contract_duration }}" readonly>
-      </div>
-    </div>
-    {% endif %}
-
-    </form>
-</div>   
-
+{% block content%}
+<p style="font-size: 15px;">To make any request, please contact us at: <a href="mailto:merecuit@gmail.com">contact@dreamjob.ma</a></p>
+    <p> We will respond to you as soon as possible.</p>
 {% endblock content%}
-
-
-
-
-
-

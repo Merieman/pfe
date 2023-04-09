@@ -1,0 +1,39 @@
+{% extends "base_com.html" %}
+{% block title%}
+My offers
+{% endblock title %}
+{% block content%}
+
+<table id="example" class="display datatable" style="width:100%">
+    <thead>
+        <tr>
+            <th>id</th>
+            <th>title</th>
+            <th>job type</th>
+            <th>date cloture</th>
+            <th>description</th>
+            <th>skills</th>
+            <th>experience</th>
+            <th>education level</th>
+            <th>number of positions</th>
+            <th>languages</th>
+        </tr>
+    </thead>
+</table>
+
+{% endblock content%}
+
+{% block scripts%}
+<script>
+    $(document).ready(function () {
+        var oTable = $('.datatable').dataTable({
+            // ...
+            "processing": true,
+            "serverSide": true,
+            "ajax": "{% url 'offerJson_c' %}"
+        });
+        // ...
+    });
+</script>
+{% endblock scripts%}
+

@@ -1,28 +1,32 @@
 {% extends "base_can.html" %} 
 {% load static %}
 {% block title%}
-Internship 
+Applied job offers
 {% endblock title %}
 {% block content%}
 
 <div id="card-deck">
-    {% for objf in my_objects_int %}
-        {% if objf.job_type == "internship" %}
-            <div class="col-sm-6 col-6">
-                <div class="card">
-                    <div class="card-header">{{ objf.title }}</div>
-                    <div class="card-body">
-                        <h6 class="card-title">{{ objf.workplace }}</h6>
-                        <p class="card-text" id="description">{{ objf.description }}</p>
-                        <a href="{% url 'more_infoc' obj.id_candidate objf.id %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>      
+    {% for p in pst %}
+        {% for objf in off %}
+            {% if p.offer.pk == objf.id %}
+                <div class="col-sm-6 col-6">
+                    <div class="card">
+                        <div class="card-header">{{ objf.title }}</div>
+                        <div class="card-body">
+                            <h6 class="card-title">{{ objf.workplace }}</h6>
+                            <p class="card-text" id="description">{{ objf.description }}</p>
+                            <a href="{% url 'more_infoc' obj.id_candidate objf.id %}" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>      
+                        </div>
                     </div>
                 </div>
-            </div>
-        {% endif %}
+
+            {% endif %}
+        {% endfor %}
     {% endfor %}
+        
 </div>
 
-{% if has_more_int %}
+{% if has_more_job %}
     <button id="show-more-btn" class="btn btn-primary">Show more</button>
 {% endif %}
 
@@ -33,10 +37,10 @@ Internship
 {% endblock content%}
 {% block scripts%}
 <script>
-    function showMore_int() {
+    function showMore_job() {
         var numCards = $('.card').length;
         $.ajax({
-            url: '/?num_cards_int=' + numCards,
+            url: '/?num_cards_job=' + numCards,
             success: function(data) {
                 if (data.trim()) {
                     $('#card-deck').append(data);
@@ -53,7 +57,7 @@ Internship
     
     $(document).ready(function() {
         $('#show-more-btn').click(function() {
-            showMore_int();
+            showMore_job();
         });
         
         // Check for cards on page load
