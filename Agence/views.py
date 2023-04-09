@@ -542,13 +542,13 @@ def save_signup_can(request):
     phone_number = request.POST.get('phone_number')
     email = request.POST.get('email')
     password = request.POST.get('password')
-    id = Candidate.objects.filter(email=email)
-    if id:
+    obj = Candidate.objects.filter(email=email).first()
+    if obj:
         messages.error(
             request, 'This email is already registered. Please use a different email.')
         return redirect('sign_can')
     else:
-        Candidate.objects.create(
+        obj=Candidate.objects.create(
             first_name=first_name,
             last_name=last_name,
             birth_date=birth_date,
@@ -559,7 +559,7 @@ def save_signup_can(request):
         )
 
     # build the URL to redirect to using the candidate_id
-        redirect_url = reverse('home_can', args=(id.pk,))
+        redirect_url = reverse('home_can', args=(obj.id_candidate,))
     # redirect the user to the URL
         return redirect(redirect_url)
 
@@ -870,16 +870,16 @@ class PostulationJson(BaseDatatableView):
 
         queryset = queryset.order_by(order_by)
         queryset = queryset[start:start+length]
-        
+
         data = [
-        [
-        row.candidate.id_candidate,
-        row.candidate.expertise_field,
-        row.offer.id,
-        row.offer.field,
-        f'<button onclick="acceptPostulation({{row.id}}, true)">Accept</button><button onclick="rejectPostulation({{row.id}}, false)">Reject</button>'
-        ]
-        for row in queryset
+            [
+                row.candidate.id_candidate,
+                row.candidate.expertise_field,
+                row.offer.id,
+                row.offer.field,
+                f'<button onclick="acceptPostulation({{row.id}}, true)">Accept</button><button onclick="rejectPostulation({{row.id}}, false)">Reject</button>'
+            ]
+            for row in queryset
         ]
 
         return JsonResponse({
@@ -888,14 +888,12 @@ class PostulationJson(BaseDatatableView):
             'recordsFiltered': records_filtered,
             'data': data,
         })
-    
 
-    def update_acceptation(request, postulation_id, acceptation):
+    def update_acceptation(self, request, postulation_id, acceptation):
         postulation = get_object_or_404(Postulation, id=postulation_id)
         postulation.acceptation = acceptation
         postulation.save()
         return JsonResponse({'success': True})
-
 
     def filter_queryset(self, qs):
         # use parameters passed in GET request to filter queryset
