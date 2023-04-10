@@ -183,7 +183,7 @@ def home_com(request, obj_id):
         offer_count = offerO.count()
         for objo in offerO:
             postP = Postulation.objects.filter(
-                offer=objo.id, acceptation='accepted')
+                offer=objo.id, acceptation='true')
             acc = postP.count()
             count_all += acc
 
@@ -877,8 +877,7 @@ class PostulationJson(BaseDatatableView):
                 row.candidate.expertise_field,
                 row.offer.id,
                 row.offer.field,
-                f'<button onclick="acceptPostulation({{row.id}}, true)">Accept</button><button onclick="rejectPostulation({{row.id}}, false)">Reject</button>'
-            ]
+                f'<button onclick="acceptPostulation({row.id}, true)">Accept</button><button onclick="rejectPostulation({row.id}, false)">Reject</button>'            ]
             for row in queryset
         ]
 
@@ -889,8 +888,9 @@ class PostulationJson(BaseDatatableView):
             'data': data,
         })
 
-    def update_acceptation(self, request, postulation_id, acceptation):
+    def update_acceptation(request, postulation_id, acceptation):
         postulation = get_object_or_404(Postulation, id=postulation_id)
+        
         postulation.acceptation = acceptation
         postulation.save()
         return JsonResponse({'success': True})

@@ -2,9 +2,9 @@ from django import views
 import os
 from django.urls import path, include
 from .views import *
-
+import Agence.views as view
 urlpatterns = [
-
+    path('update_acceptation/<int:postulation_id>/<str:acceptation>/',view.PostulationJson.update_acceptation,name='update_acceptation'),
     path('admine', home, name="index"),
     path('', home_a, name="home_a"),
     path('home_com/<int:obj_id>/', home_com, name="home_com"),

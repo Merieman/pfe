@@ -1,0 +1,189 @@
+{% extends "base_com.html" %} 
+{% load static %}
+{% block title%}
+New offer
+{% endblock title %}
+{% block content%}
+<div class="content">
+<div id="content" class="colM">
+    <div id="content-main">
+        <form method="post" action="{% url 'save_condidate' %}" id="candidate_form" class="needs-validation" novalidate>
+            {% csrf_token %}
+            <div>
+
+                <fieldset class="module aligned ">
+                    <div class="form-row field-title">
+                        <div>
+                            <label class="required" for="id_first_name">Title:</label>
+                            <input type="text" name="title" class="vTextField" maxlength="50" required id="id_title" >
+                            <div class="invalid-feedback">
+                                Please provide the offer title.
+                              </div>
+                        </div>
+                    </div>
+                    <div class="form-row field-job_type">
+                        <div>
+                            <label class="required" for="id_last_name">Job type:</label>
+                            <input type="text" name="job_type" class="vTextField" maxlength="50" required="" id="id_job_type">
+                            <div class="invalid-feedback">
+                                Please provide the job type.
+                              </div>
+                        </div>
+                    </div>
+                    <div class="form-row field-birth_date">
+                        <div class="input-group">
+                            <label class="required" for="id_birth_date">Start date:</label>
+                            
+                            <input type="text" name="start_date" class="vDateField " size="5" required="" id="id_birth_date">
+                            <div class="invalid-feedback">
+                                Please provide the start date.
+                              </div>
+                        </div>
+                    </div>
+                    <div class="form-row field-field">
+                        <div>
+                            <label  for="id_gender">Field:</label>
+                            <input type="text" name="field" class="vTextField" maxlength="10"  id="id_field">                   
+                        </div>
+                        <div class="invalid-feedback">
+                            Please provide the field .
+                          </div>     
+                    </div>
+                    <div class="form-row field-nationality">    
+                        <div>
+                            <label  for="id_nationality">Description:</label>                   
+                            <input type="text" name="description" class="vTextField" maxlength="50"  id="id_nationality">    
+                            
+                        </div>
+                    </div>
+                    <div class="form-row field-address">
+                        <div>
+                            <label  for="id_address">Skills:</label>                    
+                            <textarea name="skills" cols="40" rows="10" class="vLargeTextField" id="id_address"></textarea>     
+                        </div>       
+                    </div>
+                    <div class="form-row field-driving_license">
+                        <div>
+                            <label for="id_driving_license">Experience:</label>
+                    
+                            <input type="text" name="driving_license" class="vTextField" maxlength="100" id="id_driving_license">
+                        </div>        
+                    </div>
+                    <div class="form-row field-city">
+                        <div>
+                            <label  for="id_city">Education level:</label>
+                            <input type="text" name="education_level" class="vTextField" maxlength="50" id="id_city">   
+                        </div>
+                    </div>
+                    <div class="form-row field-phone_number">
+                        <div>
+                            <label class="required" for="id_phone_number">Workplace:</label>
+                            <input type="text" name="workplace" class="vTextField" maxlength="20" required="" id="id_phone_number">   
+                            <div class="invalid-feedback">
+                                Please provide the workplace.
+                              </div>
+                        </div>
+                    </div>
+                    <div class="form-row field-email">
+                        <div>
+                            <label class="required" for="id_email">Contract type:</label>
+                            <input type="email" name="contract_type" class="vTextField" maxlength="254" required="" id="id_email">
+                            <div class="invalid-feedback">
+                                Please provide the contract type.
+                              </div>
+                        </div>       
+                    </div>
+                    <div class="form-row field-linkedin">
+                        <div>
+                            <label for="id_linkedin">Contract duration:</label>
+                            <input type="url" name="contract_duration" class="vURLField" maxlength="200" id="id_linkedin"> 
+                        </div>
+                    </div>
+                    <div class="form-row field-technical_skills">
+                        <div>
+                            <label for="id_technical_skills">Technical skills:</label>
+                    
+                            <textarea name="technical_skills" cols="40" rows="10" class="vLargeTextField" id="id_technical_skills"></textarea>                                                  
+                        </div>        
+                    </div>
+                    <div class="form-row field-language_skills">
+                        <div>
+                            <label for="id_language_skills">Language skills:</label>
+                    
+                            <textarea name="language_skills" cols="40" rows="10" class="vLargeTextField" id="id_language_skills"></textarea>  
+                        </div>
+                    </div>
+                    <div class="form-row field-social_skills">
+                        <div>
+                            <label for="id_social_skills">Social skills:</label>
+                            <textarea name="social_skills" cols="40" rows="10" class="vLargeTextField" id="id_social_skills"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-row field-education_level">
+                        <div>
+                            <label  for="id_education_level">Education level:</label>
+                    
+                            <input type="text" name="education_level" class="vTextField" maxlength="50"   id="id_education_level">
+                        </div>
+                    </div>
+                    <div class="form-row field-expertise_field">
+                        <div>
+                            <label  for="id_expertise_field">Expertise field:</label>
+                    
+                            <input type="text" name="expertise_field" class="vTextField" maxlength="50"  id="id_expertise_field">                
+                        </div>       
+                    </div>
+                    <div class="form-row field-password">
+                        <div>
+                            <label class="required" for="id_password">Password:</label>
+                            <input type="text" name="password" class="vTextField" maxlength="128" required="" id="id_password">
+                            <div class="invalid-feedback">
+                                Please provide the password.
+                              </div>
+                        </div>
+                    </div>
+                </fieldset>
+                <div class="submit-row">
+
+                    <input type="submit" value="Save" class="default" name="_save">
+                    
+                </div>
+                
+
+            </div>  
+        </form>
+        
+    </div>
+</div>
+      
+</div>
+
+{% endblock content%}
+{% block scripts%}
+<script>
+  // Example starter JavaScript for disabling form submissions if there are invalid fields
+  (function() {
+    'use strict';
+    window.addEventListener('load', function() {
+      // Fetch all the forms we want to apply custom Bootstrap validation styles to
+      var forms = document.getElementsByClassName('needs-validation');
+      // Loop over them and prevent submission
+      var validation = Array.prototype.filter.call(forms, function(form) {
+        form.addEventListener('submit', function(event) {
+          if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+          form.classList.add('was-validated');
+        }, false);
+      });
+    }, false);
+  })();
+  </script>
+{% endblock scripts%}
+
+
+
+
+
+

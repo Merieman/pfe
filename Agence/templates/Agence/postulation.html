@@ -1,4 +1,5 @@
-{% extends "base.html" %} 
+[00:59, 10/04/2023] Meriem✨: Okay
+[01:02, 10/04/2023] Yassen Kader: {% extends "base.html" %} 
 {% load static %}
 {% block title%}
 Postulation  
@@ -29,13 +30,14 @@ Postulation
         });
         // ...
     });
-</script>
-<script>
-  
     function acceptPostulation(postulationId, acceptation) {
+      console.log("accept postulation")
         $.ajax({
           type: 'POST',
           url: '/update_acceptation/' + postulationId + '/' + acceptation + '/',
+          beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+        },
           success: function(response) {
             console.log('Postulation accepted');
             // reload the table to show the updated data
@@ -48,9 +50,13 @@ Postulation
       }
       
       function rejectPostulation(postulationId, acceptation) {
+        console.log("reject postulation")
         $.ajax({
           type: 'POST',
           url: '/update_acceptation/' + postulationId + '/' + acceptation + '/',
+          beforeSend: function(xhr, settings) {
+            xhr.setRequestHeader('X-CSRFToken', getCookie('csrftoken'));
+        },
           success: function(response) {
             console.log('Postulation rejected');
             // reload the table to show the updated data
@@ -61,12 +67,21 @@ Postulation
           }
         });
       }
-      
+
+      function getCookie(name) {
+        var cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            var cookies = document.cookie.split(';');
+            for (var i = 0; i < cookies.length; i++) {
+                var cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
 </script>
 
 {% endblock scripts%}
-
-
-
-
-
