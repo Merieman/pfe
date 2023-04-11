@@ -301,7 +301,8 @@ def job_can(request, id):
     context = {
         "my_objects_job": job_offer,
         "has_more_job": show_button_job,
-        "obj": obj
+        "obj": obj,
+        'id': id
     }
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return render(request, 'jobc_card.html', context)
@@ -366,6 +367,8 @@ def more_info(request, id):
 def more_infoc(request, id, idf):
     objf = Offer.objects.get(id=idf)
     obj = Candidate.objects.get(id_candidate=id)
+    print(idf)
+    
     context = {
         "objf": objf,
         "obj": obj
@@ -628,8 +631,9 @@ def my_resume_save(request, id):
 
 
 def apply(request, id, idf):
-    candidate = id
-    offer = idf
+    print(idf)
+    candidate = Candidate.objects.get(id_candidate=id)
+    offer = Offer.objects.get(id=idf)
     application_date = timezone.localdate()
 
     Postulation.objects.create(

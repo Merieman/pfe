@@ -12,6 +12,7 @@ urlpatterns = [
     path('internship', internship_a , name="internship" ),
     path('job', job_a , name="job" ),
     path('job_can/<int:id>/', job_can, name="job_can"),
+    path('apply/<int:id>/<str:idf>/', apply, name='apply'),
     path('app_job/<int:id>/', app_job , name="app_job"),
     path('app_int/<int:id>/', app_int , name="app_int"),
     path('list_can/<int:id>/', list_cand, name="list_can"),
