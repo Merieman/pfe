@@ -5,7 +5,7 @@
 {% endblock title %}
 {% block content %}
 <div class="container">
-    <form action="{% url 'apply' obj.id_candidate objf.title%}" method="POST" class="needs-validation" novalidate>
+    <form action="{% url 'apply' obj.id_candidate objf.id%}" method="POST" class="needs-validation" novalidate>
         {% csrf_token %}
         <div class="form-group text-right" id="signup-button">
             <input class="btn btn-primary" type="submit" value="Apply" style="margin-bottom: 10px; background-color: #007bff;">

@@ -367,6 +367,8 @@ def more_info(request, id):
 def more_infoc(request, id, idf):
     objf = Offer.objects.get(id=idf)
     obj = Candidate.objects.get(id_candidate=id)
+    print(idf)
+    
     context = {
         "objf": objf,
         "obj": obj
@@ -629,8 +631,9 @@ def my_resume_save(request, id):
 
 
 def apply(request, id, idf):
+    print(idf)
     candidate = Candidate.objects.get(id_candidate=id)
-    offer = Offer.objects.get(id=id)
+    offer = Offer.objects.get(id=idf)
     application_date = timezone.localdate()
 
     Postulation.objects.create(
